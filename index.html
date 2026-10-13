@@ -98,7 +98,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .btn.danger{border-color:#f3c1c1;color:var(--bad);font-weight:600}
 .btn.danger:hover{background:var(--badbg);border-color:var(--bad);color:var(--bad)}
 /* ============ 响应式增强 / 页脚 / 考试攻略 ============ */
-.hero .author{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;opacity:.92;margin-top:12px}
 .footer{background:var(--card);border-top:1px solid var(--line);text-align:center;padding:26px 16px calc(26px + env(safe-area-inset-bottom));color:var(--sub);font-size:12.5px;line-height:1.9}
 .footer b{color:var(--ink)}
 .footer .foot-note{color:#9aa4b5;font-size:11.5px;margin-top:4px;line-height:1.7}
@@ -174,7 +173,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <span class="badge">卷一 75 题 / 120 分钟</span>
       <span class="badge">卷三 50 题 / 75 分钟</span>
     </div>
-    <div class="author">✍️ Wyatt 编写</div>
   </div></div>
   <div class="wrap">
     <div class="stats">
@@ -211,15 +209,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </div>
     </div>
 
-    <div class="guide-banner" onclick="showGuide()">
-      <div class="ic">📖</div>
-      <div class="bd">
-        <h3>IIQE 考试介绍 & 备考攻略</h3>
-        <p>什么是 IIQE？卷一 / 卷三考什么、怎么报名、如何高效备考 —— 一篇看懂。</p>
-      </div>
-      <div class="go">查看攻略 →</div>
-    </div>
-
     <div class="sec-title">章节专项练习</div>
     <div class="chaprow" onclick="pickChapter(1)"><span>📘 卷一 · 选择章节</span><span class="pc">7 章 →</span></div>
     <div class="chaprow" onclick="pickChapter(3)"><span>📗 卷三 · 选择章节</span><span class="pc">5 章 →</span></div>
@@ -232,6 +221,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
     <div class="note">
       <b>说明</b>：本题库为依据 VTC / 高峰进修学院（PEAK）官方考试范围编写的原创练习题，非官方真题（官方不公布真题）。所有题目均为简体中文，正式考试为中英对照。保险规管细节（费用、时限、守则条文）可能更新，请以官方考试手册及保监局最新公布为准。答题记录仅保存在本机浏览器。
+    </div>
+
+    <div class="guide-banner" onclick="showGuide()">
+      <div class="ic">📖</div>
+      <div class="bd">
+        <h3>IIQE 考试介绍 & 备考攻略</h3>
+        <p>什么是 IIQE？卷一 / 卷三考什么、怎么报名、如何高效备考 —— 一篇看懂。</p>
+      </div>
+      <div class="go">查看攻略 →</div>
     </div>
   </div>
 
