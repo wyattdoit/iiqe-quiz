@@ -1,4 +1,25 @@
-# IIQE 刷题神器 · 部署说明
+# IIQE 刷题神器
+
+香港保险中介人资格考试（Insurance Intermediaries Qualifying Examination, IIQE）刷题练习应用，覆盖 **卷一《保险原理及实务》** 与 **卷三《长期保险》**。纯前端、零依赖，题库内联成单文件即可部署。
+
+> 卷一 7 章 + 卷三 5 章 ｜ 合格线 70 分 ｜ 卷一 75 题 / 120 分钟 ｜ 卷三 50 题 / 75 分钟
+
+## 功能特性
+
+- **顺序刷题 / 章节专项练习**：卷一 7 章、卷三 5 章，可按章复习。
+- **随机刷题**：打乱顺序抽题，模拟真实考试的不确定感。
+- **模拟考试**：按真实题量与时间计时作答，交卷判分并给逐题解析；选卷为卡片弹窗。
+- **错题本**：答错自动收录，支持重做错题。
+- **练习统计**：已练习题、练习正确率、错题本。
+- **一键重置做题记录**：清空本机已练 / 正确率 / 错题本。
+
+答题记录仅保存在本机浏览器（localStorage），不上传任何数据。
+
+## 题库说明
+
+- 总量 **442 题**：卷一 212 + 卷三 230。
+- 依据 VTC / 高峰进修学院（PEAK）官方考试范围编写的**原创练习题**，非官方真题（官方不公布真题）。
+- 所有题目为简体中文，正式考试为中英对照。
 
 ## 项目结构
 
@@ -8,37 +29,39 @@
 | `questions.js` | 题库数据（开发改这里） |
 | `server.js` | 本地预览服务器（零依赖） |
 | `build.js` | 打包脚本：合并成单文件 `dist/index.html` |
-| `dist/index.html` | **部署就用这个文件**（题库已内联，无需其他文件） |
+| `dist/index.html` | **部署产物**（题库已内联，无需其他文件） |
+| `.github/workflows/deploy.yml` | GitHub Actions 自动部署工作流 |
 
-## 本地预览
+## 本地开发
 
 ```bash
-npm run dev          # 启动后访问 http://127.0.0.1:7100/
+npm run dev   # 启动后访问 http://127.0.0.1:7100/
 ```
 
-## 部署（推送到 GitHub 即自动部署）
+## 构建
 
-仓库已接入 GitHub Actions：推送（或合并）到 `main` 分支会自动执行
-「构建单文件应用 → 部署到 GitHub Pages」，无需手动上传。
+```bash
+npm run build   # 生成 dist/index.html（题库内联为单文件）
+```
+
+## 部署（推送到 main 即自动部署）
+
+仓库已接入 GitHub Actions：推送（或合并）到 `main` 分支会自动执行「构建单文件应用 → 部署到 GitHub Pages」。
 
 ```bash
 git add -A && git commit -m "更新内容"
-git push origin main     # 推送后Actions自动构建部署，约1分钟上线
+git push origin main   # 推送后 Actions 自动构建部署，约 1 分钟上线
 ```
 
-- 工作流文件：`.github/workflows/deploy.yml`
-- 部署结果可在仓库的 Actions 页签查看。
 - 线上地址：`https://wyattdoit.github.io/iiqe-quiz/`
-- 自定义域名 `iiqe.sde.run`：需在 DNSPod 添加 CNAME 记录
-  （`iiqe.sde.run → wyattdoit.github.io`），然后在仓库 Settings → Pages
-  重新绑定域名（或用 API 设置 `cname`）。
+- 自定义域名：`https://iiqe.sde.run/`（工作流已写入 `dist/CNAME`）
 
 ## ⚠️ 常见坑
 
-1. **改了题目或页面必须重新 `npm run build`**，否则线上还是旧版。
-2. **部署的是 `dist/index.html`，不是项目根目录的 `index.html`**。根目录版本依赖 `questions.js`，单独上传会白屏 / 按钮无响应。
+1. **改完题目或页面必须重新 `npm run build`**，否则线上还是旧版。
+2. **部署的是 `dist/index.html`，不是根目录的 `index.html`**。根目录版本依赖 `questions.js`，单独上传会白屏 / 按钮无响应。
 3. 不要手工编辑 `dist/index.html`，改了也会被下次打包覆盖。
-4. 打包脚本会校验关键环节（题库存在、无重复声明），报错就按提示检查 `questions.js` / `index.html`，不要强行绕过。
+4. 打包脚本会校验关键环节（题库存在、无重复声明），报错按提示检查 `questions.js` / `index.html`，不要强行绕过。
 
 ## 验证部署是否成功
 
