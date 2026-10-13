@@ -688,6 +688,7 @@ function weakPool(p){
   return shuffle(pool.filter(q=>wrongSet.has(keyOf(q)))).concat(shuffle(pool.filter(q=>!recMap[keyOf(q)] && !wrongSet.has(keyOf(q)))));
 }
 function startSmart(p){
+  closeSmart();
   const pool=weakPool(p);
   if(!pool.length){ alert('太棒了，这个范围已全部掌握！错题与未做都清零了。'); return; }
   S={mode:'smart', p, label:'智能刷题 · '+(p===1?'卷一':p===3?'卷三':'全部'), keys:pool.slice(0,ROUND), idx:0};
