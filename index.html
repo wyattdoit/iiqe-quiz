@@ -81,23 +81,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .chaprow:hover{border-color:var(--brand)}
 .chaprow .pc{font-size:12px;color:var(--sub)}
 .empty{text-align:center;color:var(--sub);padding:50px 0;font-size:14px}
-/* about & share */
-.about{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;line-height:1.8}
-.about h4{font-size:15px;margin-bottom:8px}
-.about p{color:var(--sub);font-size:13px;line-height:1.85;margin-bottom:10px}
-.about .feat{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;margin:12px 0 16px;padding:0}
-@media(max-width:560px){.about .feat{grid-template-columns:1fr}}
-.about .feat li{font-size:13px;color:var(--ink)}
-.about .feat li::before{content:"✓";color:var(--ok);margin-right:7px;font-weight:700}
-.gh{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:13px;color:var(--ink);text-decoration:none;background:#fff;transition:all .15s}
-.gh:hover{border-color:var(--brand);color:var(--brand)}
-.gh svg{width:16px;height:16px;color:var(--ink)}
-.share-row{display:flex;flex-wrap:wrap;gap:10px}
-.sh{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 15px;font-size:13px;color:var(--ink);cursor:pointer;text-decoration:none;transition:all .15s}
-.sh:hover{border-color:var(--c,var(--brand));transform:translateY(-1px);box-shadow:0 6px 14px rgba(20,40,80,.1)}
-.sh svg{width:18px;height:18px;color:var(--c,#475569);flex:0 0 auto}
-#toast{position:fixed;left:50%;bottom:34px;transform:translate(-50%,20px);background:rgba(20,28,40,.92);color:#fff;font-size:13.5px;padding:10px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s;z-index:100;max-width:80vw;text-align:center}
-#toast.show{opacity:1;transform:translate(-50%,0)}
 /* modal */
 .mask{position:fixed;inset:0;background:rgba(16,26,44,.45);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px;animation:fadeIn .18s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -173,53 +156,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
     <div class="sec-title">数据管理</div>
     <div class="chaprow" onclick="openReset()"><span>🗑️ 重置做题记录</span><span class="pc">清空已练 / 正确率 / 错题本 →</span></div>
-
-    <div class="sec-title">关于本项目</div>
-    <div class="about">
-      <h4>📚 开源 · 免费 · 无需登录</h4>
-      <p><b>IIQE 刷题神器</b> 是一款面向香港保险中介人资格考试的在线练习工具，覆盖卷一《保险原理及实务》与卷三《长期保险》，帮助考生随时随地刷题、查漏补缺。</p>
-      <ul class="feat">
-        <li>卷一 212 题 + 卷三 230 题</li>
-        <li>顺序 / 随机 / 章节三大刷题模式</li>
-        <li>1:1 还原题量与时长的模拟考</li>
-        <li>错题自动收录、可反复重做</li>
-        <li>记录仅存本机浏览器</li>
-        <li>零依赖，单文件即开即用</li>
-      </ul>
-      <p>本项目完全开源，遵循 MIT 许可，源码托管于 GitHub。欢迎反馈建议、Star 或参与共建：</p>
-      <a class="gh" href="https://github.com/wyattdoit/iiqe-quiz" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-        查看源码 · github.com/wyattdoit/iiqe-quiz
-      </a>
-    </div>
-
-    <div class="sec-title">分享给朋友</div>
-    <div class="share-row">
-      <button class="sh" style="--c:#07C160" title="微信分享：复制链接后到微信粘贴" onclick="copyLink('微信')">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.27-.027-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
-        微信
-      </button>
-      <a class="sh" style="--c:#25D366" data-share="whatsapp" target="_blank" rel="noopener" title="通过 WhatsApp 分享">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        WhatsApp
-      </a>
-      <a class="sh" style="--c:#E6162D" data-share="weibo" target="_blank" rel="noopener" title="分享到微博">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10.098 20.323c-3.977.391-7.414-1.406-7.672-4.02-.259-2.609 2.759-5.047 6.74-5.441 3.979-.394 7.413 1.404 7.671 4.018.259 2.6-2.759 5.049-6.737 5.439l-.002.004zM9.05 17.219c-.384.616-1.208.884-1.829.602-.612-.279-.793-.991-.406-1.593.379-.595 1.176-.861 1.793-.601.622.263.82.972.442 1.592zm1.27-1.627c-.141.237-.449.353-.689.253-.236-.09-.313-.361-.177-.586.138-.227.436-.346.672-.24.239.09.315.36.18.601l.014-.028zm.176-2.719c-1.893-.493-4.033.45-4.857 2.118-.836 1.704-.026 3.591 1.886 4.21 1.983.64 4.318-.341 5.132-2.179.8-1.793-.201-3.642-2.161-4.149zm7.563-1.224c-.346-.105-.57-.18-.405-.615.375-.977.42-1.804 0-2.404-.781-1.112-2.915-1.053-5.364-.03 0 0-.766.331-.571-.271.376-1.217.315-2.224-.27-2.809-1.338-1.337-4.869.045-7.888 3.08C1.309 10.87 0 13.273 0 15.348c0 3.981 5.099 6.395 10.086 6.395 6.536 0 10.888-3.801 10.888-6.82 0-1.822-1.547-2.854-2.915-3.284v.01zm1.908-5.092c-.766-.856-1.908-1.187-2.96-.962-.436.09-.706.511-.616.932.09.42.511.691.932.602.511-.105 1.067.044 1.442.465.376.421.466.977.316 1.473-.136.406.089.856.51.992.405.119.857-.105.992-.512.33-1.021.12-2.178-.646-3.035l.03.045zm2.418-2.195c-1.576-1.757-3.905-2.419-6.054-1.968-.496.104-.812.587-.706 1.081.104.496.586.813 1.082.707 1.532-.331 3.185.15 4.296 1.383 1.112 1.246 1.429 2.943.947 4.416-.165.48.106 1.007.586 1.157.479.165.991-.104 1.157-.586.675-2.088.241-4.478-1.338-6.235l.03.045z"/></svg>
-        微博
-      </a>
-      <a class="sh" style="--c:#000000" data-share="x" target="_blank" rel="noopener" title="分享到 X">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/></svg>
-        X
-      </a>
-      <a class="sh" style="--c:#26A5E4" data-share="telegram" target="_blank" rel="noopener" title="分享到 Telegram">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-        Telegram
-      </a>
-      <button class="sh" title="复制页面链接" onclick="copyLink('')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-        复制链接
-      </button>
-    </div>
 
     <div class="note">
       <b>说明</b>：本题库为依据 VTC / 高峰进修学院（PEAK）官方考试范围编写的原创练习题，非官方真题（官方不公布真题）。所有题目均为简体中文，正式考试为中英对照。保险规管细节（费用、时限、守则条文）可能更新，请以官方考试手册及保监局最新公布为准。答题记录仅保存在本机浏览器。
@@ -525,38 +461,7 @@ function reviewWrong(){
   S={mode:'practice',qs,idx:0}; show('quiz'); renderQ();
 }
 
-/* ---------------- 分享 ---------------- */
-function bindShare(){
-  const u=encodeURIComponent(location.href), t=encodeURIComponent(document.title);
-  const map={
-    whatsapp:`https://api.whatsapp.com/send?text=${t}%20${u}`,
-    weibo:`https://service.weibo.com/share/share.php?url=${u}&title=${t}`,
-    x:`https://twitter.com/intent/tweet?text=${t}&url=${u}`,
-    telegram:`https://t.me/share/url?url=${u}&text=${t}`
-  };
-  document.querySelectorAll('[data-share]').forEach(a=>{ a.href=map[a.dataset.share]||'#'; });
-}
-function copyLink(src){
-  const u=location.href;
-  const ok=()=>toast(src?`已复制链接，到${src}粘贴即可分享`:'已复制页面链接');
-  const fb=()=>{
-    const i=document.createElement('textarea'); i.value=u;
-    i.style.cssText='position:fixed;opacity:0'; document.body.appendChild(i); i.select();
-    try{ document.execCommand('copy')&&ok(); }catch(e){ prompt('请手动复制链接',u); }
-    document.body.removeChild(i);
-  };
-  if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(u).then(ok).catch(fb);
-  else fb();
-}
-function toast(msg){
-  let el=document.getElementById('toast');
-  if(!el){ el=document.createElement('div'); el.id='toast'; document.body.appendChild(el); }
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),2200);
-}
-
 refreshStats();
-bindShare();
 </script>
 </body>
 </html>
