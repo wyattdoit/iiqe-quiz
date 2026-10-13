@@ -24,6 +24,8 @@ jobs:
           node-version: 20
       - name: 构建单文件应用
         run: npm run build
+      - name: 写入自定义域名
+        run: echo iiqe.sde.run > dist/CNAME
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
