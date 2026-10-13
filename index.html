@@ -208,6 +208,15 @@ button{font-family:inherit}
 .gstep h4{font-size:14px;margin-bottom:4px}
 .gstep p{font-size:13px;color:var(--ink2);margin:0;line-height:1.8}
 .gtime{background:var(--brassbg);color:var(--brass);border-radius:12px;padding:12px 16px;font-size:13px;margin-top:14px;line-height:1.7}
+.guide a.ext{color:var(--brand);font-weight:600;text-decoration:none;border-bottom:1px dashed #a9c4ef}
+.guide a.ext:hover{border-bottom-color:var(--brand)}
+.glinks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:6px 0 16px}
+.glinks a{display:flex;align-items:center;gap:11px;background:#f6f8fb;border:1px solid var(--line);border-radius:12px;padding:11px 13px;text-decoration:none;transition:border-color .15s,box-shadow .15s,transform .15s}
+.glinks a:hover{border-color:var(--brand);box-shadow:0 6px 14px rgba(20,40,80,.08);transform:translateY(-1px)}
+.glinks .gico{flex:0 0 32px;height:32px;border-radius:9px;background:#eef3ff;display:flex;align-items:center;justify-content:center;font-size:17px}
+.glinks .gt{display:flex;flex-direction:column;line-height:1.4;min-width:0}
+.glinks .gt b{font-size:13.5px;color:var(--ink)}
+.glinks .gt span{font-size:11.5px;color:var(--sub)}
 .gfaq h4{font-size:14px;margin:14px 0 4px;color:var(--ink)}
 .gfaq h4::before{content:"Q · ";color:var(--brand);font-weight:800}
 .gfaq p{font-size:13.5px;color:var(--ink2);margin:0 0 4px}
@@ -256,6 +265,7 @@ button{font-family:inherit}
   .gfacts{gap:8px}
   .gfacts b{font-size:18px}
   .chgrid{grid-template-columns:1fr}
+  .glinks{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -472,15 +482,22 @@ button{font-family:inherit}
       </section>
 
       <section>
-        <h3>06 · 报名流程</h3>
+        <h3>06 · 报名流程与官方入口</h3>
+        <div class="glinks">
+          <a href="https://www.peak.edu.hk/zh-hant/content/保險中介人資格考試" target="_blank" rel="noopener"><span class="gico">📖</span><span class="gt"><b>IIQE 考试专页</b><span>高峰进修学院 PEAK · 考试详情</span></span></a>
+          <a href="https://www.peak.edu.hk/exam/tc/" target="_blank" rel="noopener"><span class="gico">🖥️</span><span class="gt"><b>网上报名系统</b><span>PEAK 考试中心 · 报名入口</span></span></a>
+          <a href="https://www.peak.edu.hk/zh-hant/content/報名程序" target="_blank" rel="noopener"><span class="gico">📝</span><span class="gt"><b>报名程序</b><span>报名手续与所需文件</span></span></a>
+          <a href="https://www.peak.edu.hk/zh-hant/content/繳費方法" target="_blank" rel="noopener"><span class="gico">💳</span><span class="gt"><b>缴费方法</b><span>考试费用与付款方式</span></span></a>
+          <a href="https://www.ia.org.hk/" target="_blank" rel="noopener"><span class="gico">🏛️</span><span class="gt"><b>保险业监管局（IA）</b><span>发牌要求与中介人规管</span></span></a>
+        </div>
         <ol>
-          <li>前往 <b>PEAK 官网</b> 注册 / 登录考试报名系统。</li>
-          <li>选择报考试卷（如卷一、卷三）及考试场次 / 日期。</li>
-          <li>缴纳考试费用并确认报名。</li>
+          <li>前往 <a class="ext" href="https://www.peak.edu.hk/zh-hant/content/保險中介人資格考試" target="_blank" rel="noopener">PEAK 考试专页</a> 了解最新考试日程、考卷与费用。</li>
+          <li>通过 <a class="ext" href="https://www.peak.edu.hk/exam/tc/" target="_blank" rel="noopener">网上报名系统</a> 注册 / 登录，选择报考试卷（如卷一、卷三）及考试场次。</li>
+          <li>按 <a class="ext" href="https://www.peak.edu.hk/zh-hant/content/繳費方法" target="_blank" rel="noopener">缴费方法</a> 缴纳考试费用并确认报名。</li>
           <li>按指定时间、地点到考场应试（带备有效身份证明文件）。</li>
-          <li>考试后于 PEAK 系统查询成绩。</li>
+          <li>考试后于报名系统查询成绩；发牌及中介人规管资讯以 <a class="ext" href="https://www.ia.org.hk/" target="_blank" rel="noopener">保监局（IA）</a> 为准。</li>
         </ol>
-        <p class="gtip">考试费用、场次与地点会随官方安排调整，请以 PEAK 及保监局最新公布为准。</p>
+        <p class="gtip">📞 报名 / 考试查询热线：2919 1467 · 2919 1468 · 2919 1478（PEAK 考试中心）。考试费用、场次与地点会随官方安排调整，请以 PEAK 及保监局最新公布为准。</p>
       </section>
 
       <section>
