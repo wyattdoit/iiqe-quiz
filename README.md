@@ -16,14 +16,22 @@
 npm run dev          # 启动后访问 http://127.0.0.1:7100/
 ```
 
-## 部署（两步，缺一不可）
+## 部署（推送到 GitHub 即自动部署）
+
+仓库已接入 GitHub Actions：推送（或合并）到 `main` 分支会自动执行
+「构建单文件应用 → 部署到 GitHub Pages」，无需手动上传。
 
 ```bash
-npm run build        # 第 1 步：重新生成 dist/index.html
-# 第 2 步：把 dist/index.html 上传到托管平台
+git add -A && git commit -m "更新内容"
+git push origin main     # 推送后Actions自动构建部署，约1分钟上线
 ```
 
-`dist/index.html` 是单文件应用，上传到任何静态托管即可：GitHub Pages、Cloudflare Pages、Vercel、Netlify、对象存储（OSS/S3）等。
+- 工作流文件：`.github/workflows/deploy.yml`
+- 部署结果可在仓库的 Actions 页签查看。
+- 线上地址：`https://wyattdoit.github.io/iiqe-quiz/`
+- 自定义域名 `iiqe.sde.run`：需在 DNSPod 添加 CNAME 记录
+  （`iiqe.sde.run → wyattdoit.github.io`），然后在仓库 Settings → Pages
+  重新绑定域名（或用 API 设置 `cname`）。
 
 ## ⚠️ 常见坑
 
