@@ -33,7 +33,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;line-height:1.6}
-.wrap{max-width:880px;margin:0 auto;padding:0 16px 56px}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 108px}
 button{font-family:inherit}
 :focus-visible{outline:2px solid var(--brand2);outline-offset:2px;border-radius:6px}
 
@@ -238,7 +238,7 @@ button{font-family:inherit}
 .row{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;font-size:14px;font-weight:600}
 .row:hover{border-color:var(--brand2)}
 .row .pc{font-size:12px;color:var(--sub);font-weight:500}
-.footer{background:var(--card);border-top:1px solid var(--line);text-align:center;padding:26px 16px calc(26px + env(safe-area-inset-bottom));color:var(--sub);font-size:12.5px;line-height:1.9}
+.footer{background:var(--card);border-top:1px solid var(--line);text-align:center;padding:26px 16px calc(26px + env(safe-area-inset-bottom) + 52px);color:var(--sub);font-size:12.5px;line-height:1.9}
 .footer b{color:var(--ink)}
 .footer .foot-note{color:var(--muted);font-size:11.5px;margin-top:4px;line-height:1.7}
 .note{font-size:12px;color:var(--sub);line-height:1.8;margin-top:20px;background:#fff;border:1px dashed var(--line2);border-radius:12px;padding:14px 16px}
@@ -292,6 +292,12 @@ input[type=date]:focus{outline:none;border-color:var(--brand2)}
 #planModal .paper.sel .tag{opacity:1}
 
 .hidden{display:none!important}
+
+/* ---------- 底部 Tab 导航 ---------- */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.tabbar .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0 6px;background:none;border:0;cursor:pointer;color:var(--sub);font-weight:700;font-size:11px;font-family:inherit}
+.tabbar .tab .ti{font-size:19px;line-height:1}
+.tabbar .tab.on{color:var(--brand)}
 
 @media(max-width:640px){
   .hero .wrap{padding-top:30px;padding-bottom:54px}
@@ -358,6 +364,25 @@ input[type=date]:focus{outline:none;border-color:var(--brand2)}
     <div class="sec-title" data-i18n data-tw="考試計劃 · 倒排刷題">考试计划 · 倒排刷题<span class="hint" data-i18n data-tw="訂目標日，自動排每日題量">订目标日，自动排每日题量</span></div>
     <div id="planBox"></div>
 
+    <div class="sec-title" data-i18n data-tw="數據管理">数据管理</div>
+    <div class="row" onclick="openReset()" data-i18n data-tw="&lt;span&gt;🗑️ 重置做題記錄&lt;/span&gt;&lt;span class=&quot;pc&quot;&gt;清空已練 / 正確率 / 錯題本 →&lt;/span&gt;"><span>🗑️ 重置做题记录</span><span class="pc">清空已练 / 正确率 / 错题本 →</span></div>
+
+    <div class="note" data-i18n data-tw="
+      &lt;b&gt;說明&lt;/b&gt;：本題庫依據 VTC / 高峰進修學院（PEAK）官方考試範圍編寫，收錄自編&lt;b&gt;原創練習題&lt;/b&gt;（&lt;b id=&quot;nbOrig&quot;&gt;0&lt;/b&gt; 題）與&lt;b&gt;練習題庫原題&lt;/b&gt;（&lt;b id=&quot;nbReal&quot;&gt;0&lt;/b&gt; 題），每道題上方標有「原創」或「真實題」，僅供內部備考使用。題目支持簡體 / 繁體切換，正式考試為中英對照。保險規管細節（費用、時限、守則條文）可能更新，請以官方考試手冊及保監局最新公佈為準。答題記錄僅保存在本機瀏覽器。
+    ">
+      <b>说明</b>：本题库依据 VTC / 高峰进修学院（PEAK）官方考试范围编写，收录自编<b>原创练习题</b>（<b id="nbOrig">0</b> 题）与<b>练习题库原题</b>（<b id="nbReal">0</b> 题），每道题上方标有「原创」或「真实题」，仅供内部备考使用。题目支持简体 / 繁体切换，正式考试为中英对照。保险规管细节（费用、时限、守则条文）可能更新，请以官方考试手册及保监局最新公布为准。答题记录仅保存在本机浏览器。
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div data-i18n data-tw="&lt;b&gt;Wyatt&lt;/b&gt; 編寫"><b>Wyatt</b> 编写</div>
+    <div class="foot-note" data-i18n data-tw="IIQE 刷題輔助工具 · 題庫含原創練習題與練習題庫原題，僅供內部備考使用，考試詳情請以 PEAK 與保監局公佈為準">IIQE 刷题辅助工具 · 题库含原创练习题与练习题库原题，仅供内部备考使用，考试详情请以 PEAK 与保监局公布为准</div>
+  </footer>
+</div>
+
+<!-- ============ 刷题 ============ -->
+<div id="practice" class="hidden">
+  <div class="wrap">
     <div class="sec-title" data-i18n data-tw="快速開刷">快速开刷</div>
     <div class="grid2">
       <div class="card tint" onclick="openSmart()">
@@ -378,9 +403,32 @@ input[type=date]:focus{outline:none;border-color:var(--brand2)}
         <p data-i18n data-tw="按真實題量與時間計時作答，交卷判分、逐題解析，體驗考場節奏。">按真实题量与时间计时作答，交卷判分、逐题解析，体验考场节奏。</p>
         <div class="go" data-i18n data-tw="進入模擬考 →">进入模拟考 →</div>
       </div>
+    </div>
+
+    <div class="sec-title" data-i18n data-tw="章節專項&lt;span class=&quot;hint&quot;&gt;按章攻克，進度一目瞭然&lt;/span&gt;">章节专项<span class="hint">按章攻克，进度一目了然</span></div>
+    <div class="seg" id="pSeg" style="margin-top:2px">
+      <button type="button" data-p="1" class="on" data-i18n data-tw="卷一 · 保險原理及實務" onclick="setPaperTab(1)">卷一 · 保险原理及实务</button>
+      <button type="button" data-p="3" data-i18n data-tw="卷三 · 長期保險" onclick="setPaperTab(3)">卷三 · 长期保险</button>
+    </div>
+    <div id="secP1">
+      <div class="chgrid" id="chGrid1"></div>
+      <div class="seqlink" data-i18n data-tw="▸ 卷一整卷順序（20 題一組）" onclick="startSeq(1)">▸ 卷一整卷顺序（20 题一组）</div>
+    </div>
+    <div id="secP3" class="hidden">
+      <div class="chgrid" id="chGrid3"></div>
+      <div class="seqlink" data-i18n data-tw="▸ 卷三整卷順序（20 題一組）" onclick="startSeq(3)">▸ 卷三整卷顺序（20 题一组）</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 复习 ============ -->
+<div id="review" class="hidden">
+  <div class="wrap">
+    <div class="sec-title" data-i18n data-tw="錯題 · 收藏&lt;span class=&quot;hint&quot;&gt;重點回看，考前清零&lt;/span&gt;">错题 · 收藏<span class="hint">重点回看，考前清零</span></div>
+    <div class="grid2">
       <div class="card" onclick="startWrong()">
         <div class="ic" style="background:#fbecf0">✏️</div>
-        <h3 data-i18n data-tw="錯題本">错题本</h3>
+        <h3 data-i18n data-tw="錯題本">错题本<span class="mini" id="wrongMini">0</span></h3>
         <p data-i18n data-tw="答過的錯題自動收錄，考前把錯題清零是最快的提分方式。">答过的错题自动收录，考前把错题清零是最快的提分方式。</p>
         <div class="go" data-i18n data-tw="重做錯題 →">重做错题 →</div>
       </div>
@@ -391,35 +439,7 @@ input[type=date]:focus{outline:none;border-color:var(--brand2)}
         <div class="go" data-i18n data-tw="做收藏的題 →">做收藏的题 →</div>
       </div>
     </div>
-
-    <div class="sec-title" data-i18n data-tw="章節專項 · 卷一&lt;span class=&quot;hint&quot;&gt;按章攻克，進度一目瞭然&lt;/span&gt;">章节专项 · 卷一<span class="hint">按章攻克，进度一目了然</span></div>
-    <div class="chgrid" id="chGrid1"></div>
-    <div class="seqlink" data-i18n data-tw="▸ 卷一整卷順序（20 題一組）" onclick="startSeq(1)">▸ 卷一整卷顺序（20 题一组）</div>
-
-    <div class="sec-title" data-i18n data-tw="章節專項 · 卷三&lt;span class=&quot;hint&quot;&gt;按章攻克，進度一目瞭然&lt;/span&gt;">章节专项 · 卷三<span class="hint">按章攻克，进度一目了然</span></div>
-    <div class="chgrid" id="chGrid3"></div>
-    <div class="seqlink" data-i18n data-tw="▸ 卷三整卷順序（20 題一組）" onclick="startSeq(3)">▸ 卷三整卷顺序（20 题一组）</div>
-
-    <div class="sec-title" data-i18n data-tw="數據管理">数据管理</div>
-    <div class="row" onclick="openReset()" data-i18n data-tw="&lt;span&gt;🗑️ 重置做題記錄&lt;/span&gt;&lt;span class=&quot;pc&quot;&gt;清空已練 / 正確率 / 錯題本 →&lt;/span&gt;"><span>🗑️ 重置做题记录</span><span class="pc">清空已练 / 正确率 / 错题本 →</span></div>
-
-    <div class="note" data-i18n data-tw="
-      &lt;b&gt;說明&lt;/b&gt;：本題庫依據 VTC / 高峰進修學院（PEAK）官方考試範圍編寫，收錄自編&lt;b&gt;原創練習題&lt;/b&gt;（&lt;b id=&quot;nbOrig&quot;&gt;0&lt;/b&gt; 題）與&lt;b&gt;練習題庫原題&lt;/b&gt;（&lt;b id=&quot;nbReal&quot;&gt;0&lt;/b&gt; 題），每道題上方標有「原創」或「真實題」，僅供內部備考使用。題目支持簡體 / 繁體切換，正式考試為中英對照。保險規管細節（費用、時限、守則條文）可能更新，請以官方考試手冊及保監局最新公佈為準。答題記錄僅保存在本機瀏覽器。
-    ">
-      <b>说明</b>：本题库依据 VTC / 高峰进修学院（PEAK）官方考试范围编写，收录自编<b>原创练习题</b>（<b id="nbOrig">0</b> 题）与<b>练习题库原题</b>（<b id="nbReal">0</b> 题），每道题上方标有「原创」或「真实题」，仅供内部备考使用。题目支持简体 / 繁体切换，正式考试为中英对照。保险规管细节（费用、时限、守则条文）可能更新，请以官方考试手册及保监局最新公布为准。答题记录仅保存在本机浏览器。
-    </div>
-
-    <div class="guide-banner" onclick="showGuide()">
-      <div class="ic">📖</div>
-      <div class="bd" data-i18n data-tw="&lt;h3&gt;IIQE 考試介紹 &amp;amp; 備考攻略&lt;/h3&gt;&lt;p&gt;什麼是 IIQE？卷一 / 卷三考什麼、怎麼報名、如何高效備考 —— 一篇看懂。&lt;/p&gt;"><h3>IIQE 考试介绍 &amp; 备考攻略</h3><p>什么是 IIQE？卷一 / 卷三考什么、怎么报名、如何高效备考 —— 一篇看懂。</p></div>
-      <div class="go">查看攻略 →</div>
-    </div>
   </div>
-
-  <footer class="footer">
-    <div data-i18n data-tw="&lt;b&gt;Wyatt&lt;/b&gt; 編寫"><b>Wyatt</b> 编写</div>
-    <div class="foot-note" data-i18n data-tw="IIQE 刷題輔助工具 · 題庫含原創練習題與練習題庫原題，僅供內部備考使用，考試詳情請以 PEAK 與保監局公佈為準">IIQE 刷题辅助工具 · 题库含原创练习题与练习题库原题，仅供内部备考使用，考试详情请以 PEAK 与保监局公布为准</div>
-  </footer>
 </div>
 
 <!-- ============ 做题 ============ -->
@@ -760,6 +780,14 @@ input[type=date]:focus{outline:none;border-color:var(--brand2)}
   </div>
 </div>
 
+<!-- ============ 底部导航 ============ -->
+<nav id="tabbar" class="tabbar">
+  <button type="button" class="tab on" data-tab="home" onclick="go('home')"><span class="ti">🏠</span><span class="tl" data-i18n data-tw="首頁">首页</span></button>
+  <button type="button" class="tab" data-tab="practice" onclick="go('practice')"><span class="ti">✏️</span><span class="tl" data-i18n data-tw="刷題">刷题</span></button>
+  <button type="button" class="tab" data-tab="review" onclick="go('review')"><span class="ti">📚</span><span class="tl" data-i18n data-tw="複習">复习</span></button>
+  <button type="button" class="tab" data-tab="guide" onclick="go('guide')"><span class="ti">📖</span><span class="tl" data-i18n data-tw="攻略">攻略</span></button>
+</nav>
+
 <script src="questions.js"></script>
 <script>
 /* ---------------- 状态 ---------------- */
@@ -832,6 +860,8 @@ function refreshStats(){
   setText('stWrong', wrongSet.size);
   setText('favMini', favSet.size);
   const fm=document.getElementById('favMini'); if(fm) fm.style.display = favSet.size?'inline':'none';
+  setText('wrongMini', wrongSet.size);
+  const wm=document.getElementById('wrongMini'); if(wm) wm.style.display = wrongSet.size?'inline':'none';
   // 印章（合格度）
   setText('sealPct', acc===null?'—':acc+'%');
   setText('sealGap', acc===null?T('开始刷题，迈向 70 分及格线','開始刷題，邁向 70 分及格線')
@@ -994,10 +1024,30 @@ function resumeSession(r){
 }
 
 /* ---------------- 视图切换 ---------------- */
-const views=['home','quiz','result','guide'];
-function show(id){ VIEW=id; views.forEach(v=>document.getElementById(v).classList.toggle('hidden',v!==id)); const f=document.getElementById('langFixed'); if(f) f.classList.toggle('hidden', id==='quiz'); window.scrollTo(0,0); }
+const views=['home','practice','review','guide','quiz','result'];
+function show(id){
+  VIEW=id;
+  views.forEach(v=>{ const el=document.getElementById(v); if(el) el.classList.toggle('hidden', v!==id); });
+  const tb=document.getElementById('tabbar');
+  if(tb){
+    const full = id==='quiz'||id==='result';
+    tb.classList.toggle('hidden', full);
+    if(!full) tb.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===id));
+  }
+  const f=document.getElementById('langFixed'); if(f) f.classList.toggle('hidden', id==='quiz');
+  window.scrollTo(0,0);
+}
+function go(tab){ if(tab==='home'){ showHome(); return; } if(tab==='guide'){ showGuide(); return; } stopTimer(); S=null; show(tab); }
 function showHome(){ stopTimer(); S=null; refreshStats(); show('home'); if(location.hash) history.replaceState(null,'',location.pathname+location.search); }
 function showGuide(){ stopTimer(); S=null; show('guide'); if(location.hash!=='#guide') location.hash='guide'; }
+let paperTab = 1;
+function setPaperTab(p){
+  paperTab = p;
+  const a=document.getElementById('secP1'), b=document.getElementById('secP3');
+  if(a) a.classList.toggle('hidden', p!==1);
+  if(b) b.classList.toggle('hidden', p!==3);
+  document.querySelectorAll('#pSeg button').forEach(x=>x.classList.toggle('on', +x.dataset.p===p));
+}
 
 /* ---------------- 各模式开始 ---------------- */
 function chapterDeck(p,ch,scope){
@@ -1307,8 +1357,8 @@ function setLang(l){
   save(LS.lang, l);
   syncLangChrome();
   if(VIEW==='quiz' && S){ renderQ(); renderScopeBar(); }
-  else if(VIEW==='home'){ refreshStats(); }
   else if(VIEW==='result' && lastResult){ renderResult(lastResult); }
+  else { refreshStats(); }
 }
 function boot(){
   syncLangChrome();
