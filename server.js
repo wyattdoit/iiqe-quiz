@@ -5,7 +5,7 @@ const path = require('path');
 
 const args = process.argv.slice(2);
 let host = '127.0.0.1';
-let port = 7100;
+let port = parseInt(process.env.PORT, 10) || 7100;
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--host' || args[i] === '-H') host = args[++i];
   else if (args[i] === '--port' || args[i] === '-p') port = parseInt(args[++i], 10);
