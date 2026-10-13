@@ -308,6 +308,33 @@ input[type=date]:focus{outline:none;border-color:var(--brand2)}
 #planModal .paper.sel{border-color:var(--brand);background:#f4f7ff;box-shadow:0 4px 14px rgba(31,63,168,.14)}
 #planModal .paper.sel .tag{opacity:1}
 
+/* ---------- 题库预览 ---------- */
+.bankrow{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;margin:14px 0}
+#bankSeg{flex:1 1 auto}
+#bankSrc{flex:0 0 auto}
+.binput{flex:1;min-width:220px;border:1.5px solid var(--line);border-radius:11px;padding:10px 14px;font-size:14px;color:var(--ink);font-family:inherit;background:#fff}
+.binput:focus{outline:none;border-color:var(--brand2)}
+.bchips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.bchip{border:1px solid var(--line2);background:#fff;border-radius:999px;padding:6px 14px;font-size:12.5px;cursor:pointer;color:var(--sub);font-weight:600;font-family:inherit}
+.bchip:hover{border-color:var(--brand)}
+.bchip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.bankmeta{font-size:12.5px;color:var(--sub);margin:14px 0 10px}
+.bqcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:12px}
+.bqtop{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.bqtop .chip{margin-bottom:0}
+.bqno{margin-left:auto;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:700}
+.bqstem{font-size:15.5px;line-height:1.7;font-weight:650;margin-bottom:12px}
+.bqopts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.bqopt{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-size:13.5px;line-height:1.55;flex:1 1 calc(50% - 8px);min-width:200px}
+.bqopt .k{flex:0 0 22px;height:22px;border-radius:50%;background:#eef1f6;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:var(--sub)}
+.bqopt.correct{border-color:var(--pass);background:var(--passbg)}
+.bqopt.correct .k{background:var(--pass);color:#fff}
+.bqans{font-size:13.5px;font-weight:800;color:var(--pass);margin-bottom:8px}
+.bqexp{font-size:13px;line-height:1.8;color:var(--ink2);background:#f6f8fb;border-radius:10px;padding:11px 13px}
+.bpager{display:flex;align-items:center;justify-content:center;gap:14px;margin:22px 0 8px}
+.bpage{font-size:13px;color:var(--sub);font-variant-numeric:tabular-nums;font-weight:700;min-width:70px;text-align:center}
+@media(max-width:560px){.bqopt{flex:1 1 100%}.binput{min-width:100%}}
+
 .hidden{display:none!important}
 
 /* ---------- 底部 Tab 导航 ---------- */
@@ -358,6 +385,7 @@ input[type=date]:focus{outline:none;border-color:var(--brand2)}
         <button type="button" class="hnav" data-tab="practice" data-i18n data-tw="刷題" onclick="go('practice')">刷题</button>
         <button type="button" class="hnav" data-tab="review" data-i18n data-tw="複習" onclick="go('review')">复习</button>
         <button type="button" class="hnav" data-tab="guide" data-i18n data-tw="攻略" onclick="go('guide')">攻略</button>
+        <button type="button" class="hnav" data-tab="bank" data-i18n data-tw="題庫" onclick="go('bank')">题库</button>
       </nav>
       <div class="lang"><button type="button" data-lang="cn" onclick="setLang('cn')">简</button><button type="button" data-lang="tw" onclick="setLang('tw')">繁</button></div>
     </div>
@@ -727,6 +755,38 @@ input[type=date]:focus{outline:none;border-color:var(--brand2)}
   </footer>
 </div>
 
+<!-- ============ 题库预览 ============ -->
+<div id="bank" class="hidden">
+  <div class="wrap">
+    <div class="sec-title" data-i18n data-tw="題庫預覽&lt;span class=&quot;hint&quot;&gt;按卷、章節、來源與關鍵詞瀏覽全部題目&lt;/span&gt;">题库预览<span class="hint">按卷、章节、来源与关键词浏览全部题目</span></div>
+
+    <div class="bankrow">
+      <div class="seg" id="bankSeg">
+        <button type="button" data-bp="1" class="on" data-i18n data-tw="卷一 · 保險原理及實務" onclick="setBankPaper(1)">卷一 · 保险原理及实务</button>
+        <button type="button" data-bp="3" data-i18n data-tw="卷三 · 長期保險" onclick="setBankPaper(3)">卷三 · 长期保险</button>
+      </div>
+      <div class="seg" id="bankSrc">
+        <button type="button" data-bs="all" class="on" data-i18n data-tw="全部" onclick="setBankSrc('all')">全部</button>
+        <button type="button" data-bs="0" data-i18n data-tw="原創" onclick="setBankSrc(0)">原创</button>
+        <button type="button" data-bs="1" data-i18n data-tw="真實題" onclick="setBankSrc(1)">真实题</button>
+      </div>
+    </div>
+
+    <input id="bankQ" class="binput" type="search" placeholder="搜索题干关键词…">
+
+    <div class="bchips" id="bankChips"></div>
+
+    <div class="bankmeta" id="bankMeta"></div>
+    <div id="bankList"></div>
+
+    <div class="bpager">
+      <button class="btn" id="bPrev" onclick="bankPage(-1)" data-i18n data-tw="← 上一頁">← 上一页</button>
+      <span class="bpage" id="bPage"></span>
+      <button class="btn primary" id="bNext" onclick="bankPage(1)" data-i18n data-tw="下一頁 →">下一页 →</button>
+    </div>
+  </div>
+</div>
+
 <!-- ============ 智能刷题选卷 ============ -->
 <div id="smartModal" class="mask hidden" onclick="if(event.target===this)closeSmart()">
   <div class="modal">
@@ -821,6 +881,7 @@ input[type=date]:focus{outline:none;border-color:var(--brand2)}
   <button type="button" class="tab" data-tab="practice" onclick="go('practice')"><span class="ti">✏️</span><span class="tl" data-i18n data-tw="刷題">刷题</span></button>
   <button type="button" class="tab" data-tab="review" onclick="go('review')"><span class="ti">📚</span><span class="tl" data-i18n data-tw="複習">复习</span></button>
   <button type="button" class="tab" data-tab="guide" onclick="go('guide')"><span class="ti">📖</span><span class="tl" data-i18n data-tw="攻略">攻略</span></button>
+  <button type="button" class="tab" data-tab="bank" onclick="go('bank')"><span class="ti">🔍</span><span class="tl" data-i18n data-tw="題庫">题库</span></button>
 </nav>
 
 <script src="questions.js"></script>
@@ -1059,7 +1120,7 @@ function resumeSession(r){
 }
 
 /* ---------------- 视图切换 ---------------- */
-const views=['home','practice','review','guide','quiz','result'];
+const views=['home','practice','review','guide','bank','quiz','result'];
 function show(id){
   VIEW=id;
   views.forEach(v=>{ const el=document.getElementById(v); if(el) el.classList.toggle('hidden', v!==id); });
@@ -1069,7 +1130,7 @@ function show(id){
   if(!full) document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('on', b.dataset.tab===id));
   window.scrollTo(0,0);
 }
-function go(tab){ if(tab==='home'){ showHome(); return; } if(tab==='guide'){ showGuide(); return; } stopTimer(); S=null; show(tab); }
+function go(tab){ if(tab==='home'){ showHome(); return; } if(tab==='guide'){ showGuide(); return; } stopTimer(); S=null; show(tab); if(tab==='bank') enterBank(); }
 function showHome(){ stopTimer(); S=null; refreshStats(); show('home'); if(location.hash) history.replaceState(null,'',location.pathname+location.search); }
 function showGuide(){ stopTimer(); S=null; show('guide'); if(location.hash!=='#guide') location.hash='guide'; }
 let paperTab = 1;
@@ -1369,6 +1430,78 @@ function reviewWrong(){
   S={mode:'wrong', label:T('错题本','錯題本'), keys:qs, idx:0}; show('quiz'); renderQ(); renderScopeBar();
 }
 
+/* ---------------- 题库预览 ---------------- */
+const BANK_PAGE = 20;
+let bankP=1, bankCh=0, bankSrc='all', bankCur=0;
+function bankFiltered(){
+  let qs = QB.filter(q=>q.p===bankP);
+  if(bankCh) qs = qs.filter(q=>q.ch===bankCh);
+  if(bankSrc!=='all') qs = qs.filter(q=> (q.src?1:0)===bankSrc);
+  const kw=(document.getElementById('bankQ').value||'').trim().toLowerCase();
+  if(kw) qs = qs.filter(q=>{ const qL=qq(q); return ((qL.q||'')+' '+((qL.o||[]).join(' '))+' '+(qL.ch||'')).toLowerCase().indexOf(kw)>=0; });
+  return qs;
+}
+function setBankPaper(p){
+  bankP=p; bankCh=0; bankCur=0;
+  document.getElementById('bankQ').value='';
+  document.querySelectorAll('#bankSeg button').forEach(b=>b.classList.toggle('on', +b.dataset.bp===p));
+  renderBankChips(); renderBankList();
+}
+function renderBankChips(){
+  const box=document.getElementById('bankChips'); if(!box) return; box.innerHTML='';
+  const mk=(v,label)=>{ const b=document.createElement('button'); b.type='button'; b.className='bchip'+(v===bankCh?' on':''); b.textContent=label; b.onclick=()=>{ bankCh=v; bankCur=0; renderBankChips(); renderBankList(); }; return b; };
+  box.appendChild(mk(0, T('全部','全部')+' '+QB.filter(q=>q.p===bankP).length));
+  chsOf(bankP).forEach(ch=>{
+    const arr=CH[bankP][ch]||[];
+    const fq=arr[0];
+    const label=(lang==='tw'&&fq)? fq.tw.ch : ch;
+    box.appendChild(mk(ch, label+' '+arr.length));
+  });
+}
+function setBankSrc(v){
+  bankSrc=v; bankCur=0;
+  document.querySelectorAll('#bankSrc button').forEach(b=>b.classList.toggle('on', String(b.dataset.bs)===String(v)));
+  renderBankList();
+}
+function renderBankList(){
+  const qs=bankFiltered();
+  const pages=Math.max(1, Math.ceil(qs.length/BANK_PAGE));
+  if(bankCur>pages-1) bankCur=pages-1;
+  const start=bankCur*BANK_PAGE;
+  const items=qs.slice(start, start+BANK_PAGE);
+  setText('bankMeta', T('共','共')+' '+qs.length+' '+T('题 · 第','題 · 第')+' '+(bankCur+1)+' / '+pages+' '+T('页','頁'));
+  const list=document.getElementById('bankList'); list.innerHTML='';
+  items.forEach((q,i)=>{
+    const qL=qq(q), no=start+i+1;
+    const srcCls=q.src? 'chip src real':'chip src';
+    const srcLabel=q.src? T('真实题','真實題') : T('原创','原創');
+    const opts=qL.o.map((t,j)=>`<div class="bqopt${j===q.a?' correct':''}"><span class="k">${'ABCD'[j]}</span><span>${esc(t)}</span></div>`).join('');
+    const d=document.createElement('div'); d.className='bqcard';
+    d.innerHTML=`<div class="bqtop"><span class="chip">${q.p===1?'卷一':'卷三'} · ${esc(qL.ch)}</span><span class="${srcCls}">${srcLabel}</span><span class="bqno">#${no}</span></div>
+      <div class="bqstem">${esc(qL.q)}</div>
+      <div class="bqopts">${opts}</div>
+      <div class="bqans">${T('正确答案：','正確答案：')}${'ABCD'[q.a]} · ${esc(qL.o[q.a])}</div>
+      <div class="bqexp">${esc(qL.e)}</div>`;
+    list.appendChild(d);
+  });
+  document.getElementById('bPrev').disabled = bankCur===0;
+  document.getElementById('bNext').disabled = bankCur>=pages-1;
+  setText('bPage', (bankCur+1)+' / '+pages);
+}
+function bankPage(d){
+  const pages=Math.ceil(bankFiltered().length/BANK_PAGE);
+  const nx=bankCur+d;
+  if(nx<0||nx>=pages) return;
+  bankCur=nx; renderBankList(); window.scrollTo(0,0);
+}
+function enterBank(){
+  bankCur=0;
+  document.getElementById('bankQ').value='';
+  document.querySelectorAll('#bankSeg button').forEach(b=>b.classList.toggle('on', +b.dataset.bp===bankP));
+  document.querySelectorAll('#bankSrc button').forEach(b=>b.classList.toggle('on', String(b.dataset.bs)===String(bankSrc)));
+  renderBankChips(); renderBankList();
+}
+
 function applyI18n(){
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const v = lang==='tw' ? el.dataset.tw : el.dataset.cn;
@@ -1381,6 +1514,7 @@ function syncLangChrome(){
   document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on', b.dataset.lang===lang));
   document.querySelectorAll('#scopeBar button').forEach(b=>{ b.textContent = {all:T('全部','全部'),undone:T('未做','未做'),wrong:T('错题','錯題')}[b.dataset.scope]; });
   const pv=document.getElementById('btnPrev'); if(pv) pv.textContent = T('← 上一题','← 上一題');
+  const bInp=document.getElementById('bankQ'); if(bInp) bInp.placeholder = T('搜索题干关键词…','搜索題幹關鍵詞…');
   applyI18n();
 }
 function setLang(l){
@@ -1390,6 +1524,7 @@ function setLang(l){
   syncLangChrome();
   if(VIEW==='quiz' && S){ renderQ(); renderScopeBar(); }
   else if(VIEW==='result' && lastResult){ renderResult(lastResult); }
+  else if(VIEW==='bank'){ renderBankChips(); renderBankList(); }
   else { refreshStats(); }
 }
 function boot(){
