@@ -27,6 +27,7 @@ out = out.replace(DUP + '\n', '');
 
 // 4. 输出
 const distDir = path.join(root, 'dist');
+fs.rmSync(distDir, { recursive: true, force: true });
 fs.mkdirSync(distDir, { recursive: true });
 fs.writeFileSync(path.join(distDir, 'index.html'), out);
 
