@@ -135,6 +135,10 @@ button{font-family:inherit}
 .chip.warn{background:var(--brassbg);color:var(--brass)}
 .chip.src{margin-left:6px;background:var(--passbg);color:var(--pass)}
 .chip.src.real{background:var(--brassbg);color:var(--brass)}
+.lang{display:inline-flex;gap:2px;background:#e9edf4;border:1px solid var(--line2);border-radius:999px;padding:3px}
+.lang button{border:0;background:transparent;border-radius:999px;padding:3px 12px;font-size:12.5px;font-weight:700;color:var(--sub);cursor:pointer;line-height:1.6}
+.lang button.on{background:var(--brand);color:#fff}
+.lang-fixed{position:fixed;top:14px;right:16px;z-index:60;box-shadow:0 6px 20px rgba(20,40,80,.16)}
 .qtext{font-size:17px;line-height:1.75;font-weight:650;margin-bottom:20px}
 .opt{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;font-size:15px;line-height:1.6;transition:all .12s}
 .opt:hover{border-color:var(--brand2);background:#f6f8ff}
@@ -273,23 +277,24 @@ button{font-family:inherit}
 </style>
 </head>
 <body>
+<div id="langFixed" class="lang lang-fixed"><button type="button" data-lang="cn" onclick="setLang('cn')">简</button><button type="button" data-lang="tw" onclick="setLang('tw')">繁</button></div>
 
 <!-- ============ 首页 ============ -->
 <div id="home">
   <div class="hero"><div class="wrap">
     <div class="hero-inner">
       <div class="hero-main">
-        <div class="eyebrow">香港保险中介人资格考试 · 卷一 &amp; 卷三</div>
-        <h1>IIQE 刷题神器</h1>
-        <p class="hero-sub">按章节推进、智能聚焦薄弱点、模拟考场计时，一路刷到 70 分及格线。</p>
+        <div class="eyebrow" data-i18n data-tw="香港保險中介人資格考試 · 卷一 &amp;amp; 卷三">香港保险中介人资格考试 · 卷一 &amp; 卷三</div>
+        <h1 data-i18n data-tw="IIQE 刷題神器">IIQE 刷题神器</h1>
+        <p class="hero-sub" data-i18n data-tw="按章節推進、智能聚焦薄弱點、模擬考場計時，一路刷到 70 分及格線。">按章节推进、智能聚焦薄弱点、模拟考场计时，一路刷到 70 分及格线。</p>
         <div class="chips">
-          <span class="badge">及格线 70 分</span>
-          <span class="badge">卷一 · 75 题 / 120 分钟</span>
-          <span class="badge">卷三 · 50 题 / 75 分钟</span>
+          <span class="badge" data-i18n data-tw="及格線 70 分">及格线 70 分</span>
+          <span class="badge" data-i18n data-tw="卷一 · 75 題 / 120 分鐘">卷一 · 75 题 / 120 分钟</span>
+          <span class="badge" data-i18n data-tw="卷三 · 50 題 / 75 分鐘">卷三 · 50 题 / 75 分钟</span>
         </div>
       </div>
       <div class="hero-side">
-        <div class="seal"><span class="seal-label">合格度</span><b id="sealPct">—</b><small>及格线 70 分</small></div>
+        <div class="seal"><span class="seal-label">合格度</span><b id="sealPct">—</b><small data-i18n data-tw="及格線 70 分">及格线 70 分</small></div>
         <div class="seal-gap" id="sealGap">开始刷题，迈向 70 分及格线</div>
       </div>
     </div>
@@ -297,71 +302,73 @@ button{font-family:inherit}
 
   <div class="wrap">
     <div class="stats">
-      <div class="stat"><b id="stTotal">0</b><span>题库总量</span></div>
-      <div class="stat"><b id="stDone">0</b><span>已练习题</span></div>
-      <div class="stat"><b id="stAcc">—</b><span>练习正确率</span></div>
-      <div class="stat"><b id="stWrong">0</b><span>错题本</span></div>
+      <div class="stat"><b id="stTotal">0</b><span data-i18n data-tw="題庫總量">题库总量</span></div>
+      <div class="stat"><b id="stDone">0</b><span data-i18n data-tw="已練習題">已练习题</span></div>
+      <div class="stat"><b id="stAcc">—</b><span data-i18n data-tw="練習正確率">练习正确率</span></div>
+      <div class="stat"><b id="stWrong">0</b><span data-i18n data-tw="錯題本">错题本</span></div>
     </div>
 
     <div id="resumeBox" class="resume hidden">
       <div class="ri">▶</div>
-      <div class="bd"><b>继续上次</b><span id="resumeTxt"></span></div>
-      <div class="go">接着刷 →</div>
+      <div class="bd"><b data-i18n data-tw="繼續上次">继续上次</b><span id="resumeTxt"></span></div>
+      <div class="go" data-i18n data-tw="接着刷 →">接着刷 →</div>
     </div>
 
-    <div class="sec-title">快速开刷</div>
+    <div class="sec-title" data-i18n data-tw="快速開刷">快速开刷</div>
     <div class="grid2">
       <div class="card tint" onclick="openSmart()">
         <div class="ic" style="background:#eef3ff">🎯</div>
-        <h3>智能刷题<span class="mini">推荐</span></h3>
-        <p>优先错题与还没做过的题，跳过已掌握的；每 20 题一组，直到清零。</p>
-        <div class="go">开始智能刷题 →</div>
+        <h3 data-i18n data-tw="智能刷題&lt;span class=&quot;mini&quot;&gt;推薦&lt;/span&gt;">智能刷题<span class="mini">推荐</span></h3>
+        <p data-i18n data-tw="優先錯題與還沒做過的題，跳過已掌握的；每 20 題一組，直到清零。">优先错题与还没做过的题，跳过已掌握的；每 20 题一组，直到清零。</p>
+        <div class="go" data-i18n data-tw="開始智能刷題 →">开始智能刷题 →</div>
       </div>
       <div class="card" onclick="startRandom()">
         <div class="ic" style="background:#eafaf2">🔀</div>
-        <h3>随机 20 题</h3>
-        <p>从全部题目随机抽 20 题自测，检验真实熟练度与手速。</p>
-        <div class="go">抽 20 题 →</div>
+        <h3 data-i18n data-tw="隨機 20 題">随机 20 题</h3>
+        <p data-i18n data-tw="從全部題目隨機抽 20 題自測，檢驗真實熟練度與手速。">从全部题目随机抽 20 题自测，检验真实熟练度与手速。</p>
+        <div class="go" data-i18n data-tw="抽 20 題 →">抽 20 题 →</div>
       </div>
       <div class="card" onclick="openMock()">
         <div class="ic" style="background:#f0e9fd">⏱️</div>
-        <h3>模拟考试</h3>
-        <p>按真实题量与时间计时作答，交卷判分、逐题解析，体验考场节奏。</p>
-        <div class="go">进入模拟考 →</div>
+        <h3 data-i18n data-tw="模擬考試">模拟考试</h3>
+        <p data-i18n data-tw="按真實題量與時間計時作答，交卷判分、逐題解析，體驗考場節奏。">按真实题量与时间计时作答，交卷判分、逐题解析，体验考场节奏。</p>
+        <div class="go" data-i18n data-tw="進入模擬考 →">进入模拟考 →</div>
       </div>
       <div class="card" onclick="startWrong()">
         <div class="ic" style="background:#fbecf0">✏️</div>
-        <h3>错题本</h3>
-        <p>答过的错题自动收录，考前把错题清零是最快的提分方式。</p>
-        <div class="go">重做错题 →</div>
+        <h3 data-i18n data-tw="錯題本">错题本</h3>
+        <p data-i18n data-tw="答過的錯題自動收錄，考前把錯題清零是最快的提分方式。">答过的错题自动收录，考前把错题清零是最快的提分方式。</p>
+        <div class="go" data-i18n data-tw="重做錯題 →">重做错题 →</div>
       </div>
     </div>
 
-    <div class="sec-title">章节专项 · 卷一<span class="hint">按章攻克，进度一目了然</span></div>
+    <div class="sec-title" data-i18n data-tw="章節專項 · 卷一&lt;span class=&quot;hint&quot;&gt;按章攻克，進度一目瞭然&lt;/span&gt;">章节专项 · 卷一<span class="hint">按章攻克，进度一目了然</span></div>
     <div class="chgrid" id="chGrid1"></div>
-    <div class="seqlink" onclick="startSeq(1)">▸ 卷一整卷顺序（20 题一组）</div>
+    <div class="seqlink" data-i18n data-tw="▸ 卷一整卷順序（20 題一組）" onclick="startSeq(1)">▸ 卷一整卷顺序（20 题一组）</div>
 
-    <div class="sec-title">章节专项 · 卷三<span class="hint">按章攻克，进度一目了然</span></div>
+    <div class="sec-title" data-i18n data-tw="章節專項 · 卷三&lt;span class=&quot;hint&quot;&gt;按章攻克，進度一目瞭然&lt;/span&gt;">章节专项 · 卷三<span class="hint">按章攻克，进度一目了然</span></div>
     <div class="chgrid" id="chGrid3"></div>
-    <div class="seqlink" onclick="startSeq(3)">▸ 卷三整卷顺序（20 题一组）</div>
+    <div class="seqlink" data-i18n data-tw="▸ 卷三整卷順序（20 題一組）" onclick="startSeq(3)">▸ 卷三整卷顺序（20 题一组）</div>
 
-    <div class="sec-title">数据管理</div>
-    <div class="row" onclick="openReset()"><span>🗑️ 重置做题记录</span><span class="pc">清空已练 / 正确率 / 错题本 →</span></div>
+    <div class="sec-title" data-i18n data-tw="數據管理">数据管理</div>
+    <div class="row" onclick="openReset()" data-i18n data-tw="&lt;span&gt;🗑️ 重置做題記錄&lt;/span&gt;&lt;span class=&quot;pc&quot;&gt;清空已練 / 正確率 / 錯題本 →&lt;/span&gt;"><span>🗑️ 重置做题记录</span><span class="pc">清空已练 / 正确率 / 错题本 →</span></div>
 
-    <div class="note">
-      <b>说明</b>：本题库依据 VTC / 高峰进修学院（PEAK）官方考试范围编写，收录自编<b>原创练习题</b>（<b id="nbOrig">0</b> 题）与<b>练习题库原题</b>（<b id="nbReal">0</b> 题），每道题上方标有「原创」或「真实题」，仅供内部备考使用。题目均转为简体中文，正式考试为中英对照。保险规管细节（费用、时限、守则条文）可能更新，请以官方考试手册及保监局最新公布为准。答题记录仅保存在本机浏览器。
+    <div class="note" data-i18n data-tw="
+      &lt;b&gt;說明&lt;/b&gt;：本題庫依據 VTC / 高峰進修學院（PEAK）官方考試範圍編寫，收錄自編&lt;b&gt;原創練習題&lt;/b&gt;（&lt;b id=&quot;nbOrig&quot;&gt;0&lt;/b&gt; 題）與&lt;b&gt;練習題庫原題&lt;/b&gt;（&lt;b id=&quot;nbReal&quot;&gt;0&lt;/b&gt; 題），每道題上方標有「原創」或「真實題」，僅供內部備考使用。題目支持簡體 / 繁體切換，正式考試為中英對照。保險規管細節（費用、時限、守則條文）可能更新，請以官方考試手冊及保監局最新公佈為準。答題記錄僅保存在本機瀏覽器。
+    ">
+      <b>说明</b>：本题库依据 VTC / 高峰进修学院（PEAK）官方考试范围编写，收录自编<b>原创练习题</b>（<b id="nbOrig">0</b> 题）与<b>练习题库原题</b>（<b id="nbReal">0</b> 题），每道题上方标有「原创」或「真实题」，仅供内部备考使用。题目支持简体 / 繁体切换，正式考试为中英对照。保险规管细节（费用、时限、守则条文）可能更新，请以官方考试手册及保监局最新公布为准。答题记录仅保存在本机浏览器。
     </div>
 
     <div class="guide-banner" onclick="showGuide()">
       <div class="ic">📖</div>
-      <div class="bd"><h3>IIQE 考试介绍 &amp; 备考攻略</h3><p>什么是 IIQE？卷一 / 卷三考什么、怎么报名、如何高效备考 —— 一篇看懂。</p></div>
+      <div class="bd" data-i18n data-tw="&lt;h3&gt;IIQE 考試介紹 &amp;amp; 備考攻略&lt;/h3&gt;&lt;p&gt;什麼是 IIQE？卷一 / 卷三考什麼、怎麼報名、如何高效備考 —— 一篇看懂。&lt;/p&gt;"><h3>IIQE 考试介绍 &amp; 备考攻略</h3><p>什么是 IIQE？卷一 / 卷三考什么、怎么报名、如何高效备考 —— 一篇看懂。</p></div>
       <div class="go">查看攻略 →</div>
     </div>
   </div>
 
   <footer class="footer">
-    <div><b>Wyatt</b> 编写</div>
-    <div class="foot-note">IIQE 刷题辅助工具 · 题库含原创练习题与练习题库原题，仅供内部备考使用，考试详情请以 PEAK 与保监局公布为准</div>
+    <div data-i18n data-tw="&lt;b&gt;Wyatt&lt;/b&gt; 編寫"><b>Wyatt</b> 编写</div>
+    <div class="foot-note" data-i18n data-tw="IIQE 刷題輔助工具 · 題庫含原創練習題與練習題庫原題，僅供內部備考使用，考試詳情請以 PEAK 與保監局公佈為準">IIQE 刷题辅助工具 · 题库含原创练习题与练习题库原题，仅供内部备考使用，考试详情请以 PEAK 与保监局公布为准</div>
   </footer>
 </div>
 
@@ -372,6 +379,7 @@ button{font-family:inherit}
     <div class="pbar"><i id="pfill" style="width:0%"></i></div>
     <span class="qcounter" id="qcounter"></span>
     <span class="timer hidden" id="timer"></span>
+    <div class="lang" id="langTop"><button type="button" data-lang="cn" onclick="setLang('cn')">简</button><button type="button" data-lang="tw" onclick="setLang('tw')">繁</button></div>
   </div></div>
   <div class="wrap">
     <div class="qcard">
@@ -404,8 +412,8 @@ button{font-family:inherit}
     <div class="rmeta" id="rMeta"></div>
     <div class="acts">
       <button class="btn big primary hidden" id="btnMore"></button>
-      <button class="btn big" onclick="reviewWrong()" id="btnRevWrong">重做错题</button>
-      <button class="btn big primary" onclick="showHome()">返回首页</button>
+      <button class="btn big" onclick="reviewWrong()" id="btnRevWrong" data-i18n data-tw="重做錯題">重做错题</button>
+      <button class="btn big primary" onclick="showHome()" data-i18n data-tw="返回首頁">返回首页</button>
     </div>
   </div>
   <div id="revList"></div>
@@ -415,22 +423,41 @@ button{font-family:inherit}
 <div id="guide" class="hidden">
   <div class="topbar"><div class="wrap">
     <button class="btn" onclick="showHome()">← 返回首页</button>
-    <b>IIQE 考试介绍 &amp; 备考攻略</b>
+    <b data-i18n data-tw="IIQE 考試介紹 &amp;amp; 備考攻略">IIQE 考试介绍 &amp; 备考攻略</b>
   </div></div>
   <div class="wrap">
     <article class="guide">
       <div class="guide-hero">
-        <h2>📖 香港保险中介人资格考试（IIQE）</h2>
-        <p>Insurance Intermediaries Qualifying Examination · 一文看懂考试内容、各卷科目、报名方式与高效备考。</p>
+        <h2 data-i18n data-tw="📖 香港保險中介人資格考試（IIQE）">📖 香港保险中介人资格考试（IIQE）</h2>
+        <p data-i18n data-tw="Insurance Intermediaries Qualifying Examination · 一文看懂考試內容、各卷科目、報名方式與高效備考。">Insurance Intermediaries Qualifying Examination · 一文看懂考试内容、各卷科目、报名方式与高效备考。</p>
       </div>
 
-      <section>
+      <section data-i18n data-tw="
+        &lt;h3&gt;01 · IIQE 是什麼？&lt;/h3&gt;
+        &lt;p&gt;香港保險中介人資格考試（IIQE）是香港保險業的中介人資格考核，由職業訓練局（VTC）轄下的高峰進修學院（PEAK）舉辦，考試成績獲保險業監管局（IA）認可，是成為持牌保險代理人 / 保險經紀的重要條件。&lt;/p&gt;
+        &lt;p&gt;簡單來說：想在香港合法從事保險銷售或中介業務，就要先通過相應試卷、取得牌照。&lt;/p&gt;
+      ">
         <h3>01 · IIQE 是什么？</h3>
         <p>香港保险中介人资格考试（IIQE）是香港保险业的中介人资格考核，由职业训练局（VTC）辖下的高峰进修学院（PEAK）举办，考试成绩获保险业监管局（IA）认可，是成为持牌保险代理人 / 保险经纪的重要条件。</p>
         <p>简单来说：想在香港合法从事保险销售或中介业务，就要先通过相应试卷、取得牌照。</p>
       </section>
 
-      <section>
+      <section data-i18n data-tw="
+        &lt;h3&gt;02 · 考試科目總覽&lt;/h3&gt;
+        &lt;p&gt;IIQE 按業務線分為多個試卷，從業者須按其業務範圍通過相應試卷：&lt;/p&gt;
+        &lt;div class=&quot;gtblwrap&quot;&gt;
+          &lt;table class=&quot;gtbl&quot;&gt;
+            &lt;thead&gt;&lt;tr&gt;&lt;th&gt;試卷&lt;/th&gt;&lt;th&gt;名稱&lt;/th&gt;&lt;th&gt;適用對象&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+            &lt;tbody&gt;
+              &lt;tr&gt;&lt;td&gt;卷一&lt;/td&gt;&lt;td&gt;保險原理及實務&lt;/td&gt;&lt;td&gt;所有保險中介（必修）&lt;/td&gt;&lt;/tr&gt;
+              &lt;tr&gt;&lt;td&gt;卷二&lt;/td&gt;&lt;td&gt;一般保險&lt;/td&gt;&lt;td&gt;一般（財產）保險中介&lt;/td&gt;&lt;/tr&gt;
+              &lt;tr&gt;&lt;td&gt;卷三&lt;/td&gt;&lt;td&gt;長期保險&lt;/td&gt;&lt;td&gt;長期（人壽）保險中介&lt;/td&gt;&lt;/tr&gt;
+              &lt;tr&gt;&lt;td&gt;卷五&lt;/td&gt;&lt;td&gt;投資相連長期保險&lt;/td&gt;&lt;td&gt;投連險中介&lt;/td&gt;&lt;/tr&gt;
+            &lt;/tbody&gt;
+          &lt;/table&gt;
+        &lt;/div&gt;
+        &lt;p class=&quot;gtip&quot;&gt;本 App 目前覆蓋 &lt;b&gt;卷一&lt;/b&gt; 與 &lt;b&gt;卷三&lt;/b&gt; 兩卷，題庫共 &lt;b id=&quot;gTotal&quot;&gt;0&lt;/b&gt; 題（卷一 &lt;b id=&quot;gP1&quot;&gt;0&lt;/b&gt; + 卷三 &lt;b id=&quot;gP3&quot;&gt;0&lt;/b&gt;，含原創 &lt;b id=&quot;gOrig&quot;&gt;0&lt;/b&gt; 題與真實題 &lt;b id=&quot;gReal&quot;&gt;0&lt;/b&gt; 題）。另有旅遊保險等專項考試，具體以官方公佈為準。&lt;/p&gt;
+      ">
         <h3>02 · 考试科目总览</h3>
         <p>IIQE 按业务线分为多个试卷，从业者须按其业务范围通过相应试卷：</p>
         <div class="gtblwrap">
@@ -447,7 +474,17 @@ button{font-family:inherit}
         <p class="gtip">本 App 目前覆盖 <b>卷一</b> 与 <b>卷三</b> 两卷，题库共 <b id="gTotal">0</b> 题（卷一 <b id="gP1">0</b> + 卷三 <b id="gP3">0</b>，含原创 <b id="gOrig">0</b> 题与真实题 <b id="gReal">0</b> 题）。另有旅游保险等专项考试，具体以官方公布为准。</p>
       </section>
 
-      <section>
+      <section data-i18n data-tw="
+        &lt;h3&gt;03 · 卷一《保險原理及實務》&lt;/h3&gt;
+        &lt;div class=&quot;gfacts&quot;&gt;
+          &lt;div&gt;&lt;b&gt;75&lt;/b&gt;&lt;span&gt;題目數&lt;/span&gt;&lt;/div&gt;
+          &lt;div&gt;&lt;b&gt;120&lt;/b&gt;&lt;span&gt;分鐘&lt;/span&gt;&lt;/div&gt;
+          &lt;div&gt;&lt;b&gt;70%&lt;/b&gt;&lt;span&gt;及格線&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;p class=&quot;gtip&quot;&gt;及格線 70%，相當於約答對 53 題。&lt;/p&gt;
+        &lt;p&gt;全卷共 7 章：風險與保險、保險之法律原則、保險原則（可保利益 / 最高誠信 / 近因 / 賠償）、保險公司之運作與功能、保險業之結構、香港保險業之規管架構、職業道德與操守。&lt;/p&gt;
+        &lt;p&gt;卷一是所有保險中介的&lt;b&gt;必修卷&lt;/b&gt;，無論從事人壽還是財產保險，都要先過這一關。&lt;/p&gt;
+      ">
         <h3>03 · 卷一《保险原理及实务》</h3>
         <div class="gfacts">
           <div><b>75</b><span>题目数</span></div>
@@ -459,7 +496,17 @@ button{font-family:inherit}
         <p>卷一是所有保险中介的<b>必修卷</b>，无论从事人寿还是财产保险，都要先过这一关。</p>
       </section>
 
-      <section>
+      <section data-i18n data-tw="
+        &lt;h3&gt;04 · 卷三《長期保險》&lt;/h3&gt;
+        &lt;div class=&quot;gfacts&quot;&gt;
+          &lt;div&gt;&lt;b&gt;50&lt;/b&gt;&lt;span&gt;題目數&lt;/span&gt;&lt;/div&gt;
+          &lt;div&gt;&lt;b&gt;75&lt;/b&gt;&lt;span&gt;分鐘&lt;/span&gt;&lt;/div&gt;
+          &lt;div&gt;&lt;b&gt;70%&lt;/b&gt;&lt;span&gt;及格線&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;p class=&quot;gtip&quot;&gt;及格線 70%，相當於約答對 35 題。&lt;/p&gt;
+        &lt;p&gt;全卷共 5 章：人壽保險簡介、壽險及年金種類、附約產品、保單條款闡釋、壽險程序。&lt;/p&gt;
+        &lt;p&gt;卷三適合計劃從事&lt;b&gt;人壽 / 長期保險&lt;/b&gt;（如儲蓄、危疾、年金等產品線）的從業者。&lt;/p&gt;
+      ">
         <h3>04 · 卷三《长期保险》</h3>
         <div class="gfacts">
           <div><b>50</b><span>题目数</span></div>
@@ -471,7 +518,15 @@ button{font-family:inherit}
         <p>卷三适合计划从事<b>人寿 / 长期保险</b>（如储蓄、危疾、年金等产品线）的从业者。</p>
       </section>
 
-      <section>
+      <section data-i18n data-tw="
+        &lt;h3&gt;05 · 考試形式&lt;/h3&gt;
+        &lt;ul&gt;
+          &lt;li&gt;全卷為&lt;b&gt;多項選擇題&lt;/b&gt;（四選一）。&lt;/li&gt;
+          &lt;li&gt;&lt;b&gt;中英對照&lt;/b&gt;：題目與選項同時提供中文及英文。&lt;/li&gt;
+          &lt;li&gt;採用&lt;b&gt;電腦化考試（CBT）&lt;/b&gt;，在指定考場進行。&lt;/li&gt;
+          &lt;li&gt;全卷一個總分，&lt;b&gt;70% 或以上即及格&lt;/b&gt;，不設分題及格線。&lt;/li&gt;
+        &lt;/ul&gt;
+      ">
         <h3>05 · 考试形式</h3>
         <ul>
           <li>全卷为<b>多项选择题</b>（四选一）。</li>
@@ -481,7 +536,24 @@ button{font-family:inherit}
         </ul>
       </section>
 
-      <section>
+      <section data-i18n data-tw="
+        &lt;h3&gt;06 · 報名流程與官方入口&lt;/h3&gt;
+        &lt;div class=&quot;glinks&quot;&gt;
+          &lt;a href=&quot;https://www.peak.edu.hk/zh-hant/content/保險中介人資格考試&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;&lt;span class=&quot;gico&quot;&gt;📖&lt;/span&gt;&lt;span class=&quot;gt&quot;&gt;&lt;b&gt;IIQE 考試專頁&lt;/b&gt;&lt;span&gt;高峰進修學院 PEAK · 考試詳情&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+          &lt;a href=&quot;https://www.peak.edu.hk/exam/tc/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;&lt;span class=&quot;gico&quot;&gt;🖥️&lt;/span&gt;&lt;span class=&quot;gt&quot;&gt;&lt;b&gt;網上報名系統&lt;/b&gt;&lt;span&gt;PEAK 考試中心 · 報名入口&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+          &lt;a href=&quot;https://www.peak.edu.hk/zh-hant/content/報名程序&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;&lt;span class=&quot;gico&quot;&gt;📝&lt;/span&gt;&lt;span class=&quot;gt&quot;&gt;&lt;b&gt;報名程序&lt;/b&gt;&lt;span&gt;報名手續與所需文件&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+          &lt;a href=&quot;https://www.peak.edu.hk/zh-hant/content/繳費方法&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;&lt;span class=&quot;gico&quot;&gt;💳&lt;/span&gt;&lt;span class=&quot;gt&quot;&gt;&lt;b&gt;繳費方法&lt;/b&gt;&lt;span&gt;考試費用與付款方式&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+          &lt;a href=&quot;https://www.ia.org.hk/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;&lt;span class=&quot;gico&quot;&gt;🏛️&lt;/span&gt;&lt;span class=&quot;gt&quot;&gt;&lt;b&gt;保險業監管局（IA）&lt;/b&gt;&lt;span&gt;發牌要求與中介人規管&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;ol&gt;
+          &lt;li&gt;前往 &lt;a class=&quot;ext&quot; href=&quot;https://www.peak.edu.hk/zh-hant/content/保險中介人資格考試&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;PEAK 考試專頁&lt;/a&gt; 瞭解最新考試日程、考卷與費用。&lt;/li&gt;
+          &lt;li&gt;通過 &lt;a class=&quot;ext&quot; href=&quot;https://www.peak.edu.hk/exam/tc/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;網上報名系統&lt;/a&gt; 註冊 / 登錄，選擇報考試卷（如卷一、卷三）及考試場次。&lt;/li&gt;
+          &lt;li&gt;按 &lt;a class=&quot;ext&quot; href=&quot;https://www.peak.edu.hk/zh-hant/content/繳費方法&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;繳費方法&lt;/a&gt; 繳納考試費用並確認報名。&lt;/li&gt;
+          &lt;li&gt;按指定時間、地點到考場應試（帶備有效身份證明文件）。&lt;/li&gt;
+          &lt;li&gt;考試後於報名系統查詢成績；發牌及中介人規管資訊以 &lt;a class=&quot;ext&quot; href=&quot;https://www.ia.org.hk/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;保監局（IA）&lt;/a&gt; 為準。&lt;/li&gt;
+        &lt;/ol&gt;
+        &lt;p class=&quot;gtip&quot;&gt;📞 報名 / 考試查詢熱線：2919 1467 · 2919 1468 · 2919 1478（PEAK 考試中心）。考試費用、場次與地點會隨官方安排調整，請以 PEAK 及保監局最新公佈為準。&lt;/p&gt;
+      ">
         <h3>06 · 报名流程与官方入口</h3>
         <div class="glinks">
           <a href="https://www.peak.edu.hk/zh-hant/content/保險中介人資格考試" target="_blank" rel="noopener"><span class="gico">📖</span><span class="gt"><b>IIQE 考试专页</b><span>高峰进修学院 PEAK · 考试详情</span></span></a>
@@ -500,7 +572,14 @@ button{font-family:inherit}
         <p class="gtip">📞 报名 / 考试查询热线：2919 1467 · 2919 1468 · 2919 1478（PEAK 考试中心）。考试费用、场次与地点会随官方安排调整，请以 PEAK 及保监局最新公布为准。</p>
       </section>
 
-      <section>
+      <section data-i18n data-tw="
+        &lt;h3&gt;07 · 備考攻略：如何高效通過？&lt;/h3&gt;
+        &lt;div class=&quot;gstep&quot;&gt;&lt;h4&gt;第一步 · 建立知識框架&lt;/h4&gt;&lt;p&gt;通讀官方考試範圍 / 教材，重點掌握&lt;b&gt;保險原則&lt;/b&gt;（可保利益、最高誠信、近因、賠償）與契約法基礎，這是卷一的重頭戲。&lt;/p&gt;&lt;/div&gt;
+        &lt;div class=&quot;gstep&quot;&gt;&lt;h4&gt;第二步 · 分章節刷題&lt;/h4&gt;&lt;p&gt;用本 App 的「章節專項練習」逐章突破，每章做完後針對錯題反覆鞏固，形成長期記憶。&lt;/p&gt;&lt;/div&gt;
+        &lt;div class=&quot;gstep&quot;&gt;&lt;h4&gt;第三步 · 智能 &amp;amp; 隨機檢驗&lt;/h4&gt;&lt;p&gt;用「智能刷題」聚焦薄弱點、用「隨機 20 題」打亂順序避免死記；臨考前用「模擬考試」計時檢驗。&lt;/p&gt;&lt;/div&gt;
+        &lt;div class=&quot;gstep&quot;&gt;&lt;h4&gt;第四步 · 死磕錯題本&lt;/h4&gt;&lt;p&gt;答錯的題會自動進入「錯題本」，考前把錯題清零，往往是提分最快的環節。&lt;/p&gt;&lt;/div&gt;
+        &lt;div class=&quot;gtime&quot;&gt;⏱️ 時間管理參考：卷一 120 分鐘 75 題 ≈ 每題 1.6 分鐘；卷三 75 分鐘 50 題 ≈ 每題 1.5 分鐘。&lt;/div&gt;
+      ">
         <h3>07 · 备考攻略：如何高效通过？</h3>
         <div class="gstep"><h4>第一步 · 建立知识框架</h4><p>通读官方考试范围 / 教材，重点掌握<b>保险原则</b>（可保利益、最高诚信、近因、赔偿）与契约法基础，这是卷一的重头戏。</p></div>
         <div class="gstep"><h4>第二步 · 分章节刷题</h4><p>用本 App 的「章节专项练习」逐章突破，每章做完后针对错题反复巩固，形成长期记忆。</p></div>
@@ -509,7 +588,15 @@ button{font-family:inherit}
         <div class="gtime">⏱️ 时间管理参考：卷一 120 分钟 75 题 ≈ 每题 1.6 分钟；卷三 75 分钟 50 题 ≈ 每题 1.5 分钟。</div>
       </section>
 
-      <section>
+      <section data-i18n data-tw="
+        &lt;h3&gt;08 · 常見問題（FAQ）&lt;/h3&gt;
+        &lt;div class=&quot;gfaq&quot;&gt;
+          &lt;h4&gt;考試用中文還是英文？&lt;/h4&gt;&lt;p&gt;題目及選項均為中英對照，可按個人習慣作答。&lt;/p&gt;
+          &lt;h4&gt;可以一次報考多份試卷嗎？&lt;/h4&gt;&lt;p&gt;各試卷獨立報考，可依發牌要求與個人安排分次或依次報考。&lt;/p&gt;
+          &lt;h4&gt;考試不通過可以重考嗎？&lt;/h4&gt;&lt;p&gt;可以，重新報名參加下一次考試即可，重考規則以官方為準。&lt;/p&gt;
+          &lt;h4&gt;成績何時公佈？&lt;/h4&gt;&lt;p&gt;電腦化考試通常於考試後一段時間內在報名系統公佈，具體以 PEAK 通知為準。&lt;/p&gt;
+        &lt;/div&gt;
+      ">
         <h3>08 · 常见问题（FAQ）</h3>
         <div class="gfaq">
           <h4>考试用中文还是英文？</h4><p>题目及选项均为中英对照，可按个人习惯作答。</p>
@@ -519,36 +606,38 @@ button{font-family:inherit}
         </div>
       </section>
 
-      <div class="gdisclaimer">
+      <div class="gdisclaimer" data-i18n data-tw="
+        &lt;b&gt;⚠️ 免責聲明&lt;/b&gt;：本頁面為備考輔助與流程說明，考試科目、題量、時限、費用與規管條文可能更新，請以&lt;b&gt;高峰進修學院（PEAK）&lt;/b&gt;及&lt;b&gt;保險業監管局（IA）&lt;/b&gt;最新公佈為準。本 App 題庫依據官方考試範圍編寫，收錄自編原創練習題與練習題庫原題，僅供內部備考使用。
+      ">
         <b>⚠️ 免责声明</b>：本页面为备考辅助与流程说明，考试科目、题量、时限、费用与规管条文可能更新，请以<b>高峰进修学院（PEAK）</b>及<b>保险业监管局（IA）</b>最新公布为准。本 App 题库依据官方考试范围编写，收录自编原创练习题与练习题库原题，仅供内部备考使用。
       </div>
     </article>
   </div>
 
   <footer class="footer">
-    <div><b>Wyatt</b> 编写</div>
-    <div class="foot-note">IIQE 刷题辅助工具 · 考试详情请以 PEAK 与保监局公布为准</div>
+    <div data-i18n data-tw="&lt;b&gt;Wyatt&lt;/b&gt; 編寫"><b>Wyatt</b> 编写</div>
+    <div class="foot-note" data-i18n data-tw="IIQE 刷題輔助工具 · 考試詳情請以 PEAK 與保監局公佈為準">IIQE 刷题辅助工具 · 考试详情请以 PEAK 与保监局公布为准</div>
   </footer>
 </div>
 
 <!-- ============ 智能刷题选卷 ============ -->
 <div id="smartModal" class="mask hidden" onclick="if(event.target===this)closeSmart()">
   <div class="modal">
-    <h2>🎯 智能刷题 · 选择范围</h2>
-    <div class="msub">优先刷「错题 + 没做过的题」，跳过已掌握的；每 20 题一组，直到清零。</div>
+    <h2 data-i18n data-tw="🎯 智能刷題 · 選擇範圍">🎯 智能刷题 · 选择范围</h2>
+    <div class="msub" data-i18n data-tw="優先刷「錯題 + 沒做過的題」，跳過已掌握的；每 20 題一組，直到清零。">优先刷「错题 + 没做过的题」，跳过已掌握的；每 20 题一组，直到清零。</div>
     <div class="paper" onclick="startSmart(1)">
       <div class="pi" style="background:#eef3ff">📘</div>
-      <div><b>卷一 · 保险原理及实务</b><span>只刷卷一的薄弱点</span></div>
+      <div data-i18n data-tw="&lt;b&gt;卷一 · 保險原理及實務&lt;/b&gt;&lt;span&gt;只刷卷一的薄弱點&lt;/span&gt;"><b>卷一 · 保险原理及实务</b><span>只刷卷一的薄弱点</span></div>
       <span class="tag">开始 →</span>
     </div>
     <div class="paper" onclick="startSmart(3)">
       <div class="pi" style="background:#eafaf2">📗</div>
-      <div><b>卷三 · 长期保险</b><span>只刷卷三的薄弱点</span></div>
+      <div data-i18n data-tw="&lt;b&gt;卷三 · 長期保險&lt;/b&gt;&lt;span&gt;只刷卷三的薄弱點&lt;/span&gt;"><b>卷三 · 长期保险</b><span>只刷卷三的薄弱点</span></div>
       <span class="tag">开始 →</span>
     </div>
     <div class="paper" onclick="startSmart(0)">
       <div class="pi" style="background:#f0e9fd">🧭</div>
-      <div><b>全部试卷</b><span>卷一 + 卷三一起刷</span></div>
+      <div data-i18n data-tw="&lt;b&gt;全部試卷&lt;/b&gt;&lt;span&gt;卷一 + 卷三一起刷&lt;/span&gt;"><b>全部试卷</b><span>卷一 + 卷三一起刷</span></div>
       <span class="tag">开始 →</span>
     </div>
     <div class="foot"><button class="btn" onclick="closeSmart()">取消</button></div>
@@ -558,16 +647,16 @@ button{font-family:inherit}
 <!-- ============ 模拟考选卷 ============ -->
 <div id="mockModal" class="mask hidden" onclick="if(event.target===this)closeMock()">
   <div class="modal">
-    <h2>⏱️ 模拟考试 · 选择试卷</h2>
-    <div class="msub">按真实考试题量与时长从题库随机抽题，计时作答，交卷后判分并给出逐题解析。</div>
+    <h2 data-i18n data-tw="⏱️ 模擬考試 · 選擇試卷">⏱️ 模拟考试 · 选择试卷</h2>
+    <div class="msub" data-i18n data-tw="按真實考試題量與時長從題庫隨機抽題，計時作答，交卷後判分並給出逐題解析。">按真实考试题量与时长从题库随机抽题，计时作答，交卷后判分并给出逐题解析。</div>
     <div class="paper" onclick="startMock(1)">
       <div class="pi" style="background:#eef3ff">📘</div>
-      <div><b>卷一 · 保险原理及实务</b><span>75 题 ｜ 120 分钟 ｜ 合格线 70 分</span></div>
+      <div data-i18n data-tw="&lt;b&gt;卷一 · 保險原理及實務&lt;/b&gt;&lt;span&gt;75 題 ｜ 120 分鐘 ｜ 合格線 70 分&lt;/span&gt;"><b>卷一 · 保险原理及实务</b><span>75 题 ｜ 120 分钟 ｜ 合格线 70 分</span></div>
       <span class="tag">开始 →</span>
     </div>
     <div class="paper" onclick="startMock(3)">
       <div class="pi" style="background:#eafaf2">📗</div>
-      <div><b>卷三 · 长期保险</b><span>50 题 ｜ 75 分钟 ｜ 合格线 70 分</span></div>
+      <div data-i18n data-tw="&lt;b&gt;卷三 · 長期保險&lt;/b&gt;&lt;span&gt;50 題 ｜ 75 分鐘 ｜ 合格線 70 分&lt;/span&gt;"><b>卷三 · 长期保险</b><span>50 题 ｜ 75 分钟 ｜ 合格线 70 分</span></div>
       <span class="tag">开始 →</span>
     </div>
     <div class="foot"><button class="btn" onclick="closeMock()">取消</button></div>
@@ -577,11 +666,11 @@ button{font-family:inherit}
 <!-- ============ 重置确认 ============ -->
 <div id="resetModal" class="mask hidden" onclick="if(event.target===this)closeReset()">
   <div class="modal" style="max-width:430px">
-    <h2>🗑️ 重置做题记录？</h2>
-    <div class="msub">将清空本机的已练习题、正确率统计与错题本，此操作无法恢复。题库内容不受影响。</div>
+    <h2 data-i18n data-tw="🗑️ 重置做題記錄？">🗑️ 重置做题记录？</h2>
+    <div class="msub" data-i18n data-tw="將清空本機的已練習題、正確率統計與錯題本，此操作無法恢復。題庫內容不受影響。">将清空本机的已练习题、正确率统计与错题本，此操作无法恢复。题库内容不受影响。</div>
     <div class="foot">
       <button class="btn" onclick="closeReset()">取消</button>
-      <button class="btn danger" onclick="doReset()">确认重置</button>
+      <button class="btn danger" onclick="doReset()" data-i18n data-tw="確認重置">确认重置</button>
     </div>
   </div>
 </div>
@@ -590,7 +679,7 @@ button{font-family:inherit}
 <script>
 /* ---------------- 状态 ---------------- */
 const QB = window.QBANK;
-const LS = { rec:'iiqe_rec', wrong:'iiqe_wrong', resume:'iiqe_resume' };
+const LS = { rec:'iiqe_rec', wrong:'iiqe_wrong', resume:'iiqe_resume', lang:'iiqe_lang' };
 const ROUND = 20;
 const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
 const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
@@ -598,6 +687,12 @@ let recMap  = load(LS.rec, {});      // key -> {sel, ok}
 let wrongSet = new Set(load(LS.wrong, []));
 let S = null;                        // 当前会话
 let timerId = null;
+let lang = load(LS.lang, 'cn');
+let VIEW = 'home';
+let lastResult = null;
+const T = (cn, tw) => (lang === 'tw' ? (tw || cn) : cn);
+const qq = q => (lang === 'tw' ? q.tw : q);
+document.querySelectorAll('[data-i18n]').forEach(el => { el.dataset.cn = el.innerHTML; });
 
 const keyOf = q => q.p+'-'+q.ch+'-'+QB.indexOf(q);
 const qOfKey = k => QB[+k.slice(k.lastIndexOf('-')+1)];
@@ -628,9 +723,9 @@ function refreshStats(){
   setText('stWrong', wrongSet.size);
   // 印章（合格度）
   setText('sealPct', acc===null?'—':acc+'%');
-  setText('sealGap', acc===null?'开始刷题，迈向 70 分及格线'
-    : acc>=70 ? '已达及格线，继续保持 ✓'
-    : '距及格线还差 '+(70-acc)+' 分');
+  setText('sealGap', acc===null?T('开始刷题，迈向 70 分及格线','開始刷題，邁向 70 分及格線')
+    : acc>=70 ? T('已达及格线，继续保持 ✓','已達及格線，繼續保持 ✓')
+    : T('距及格线还差','距及格線還差')+' '+(70-acc)+' 分');
   renderChapterGrid(1);
   renderChapterGrid(3);
   renderResume();
@@ -641,9 +736,11 @@ function renderChapterGrid(p){
     const st=chapterStat(p,ch);
     const pct=st.done? Math.round(st.ok/st.done*100) : null;
     const w=st.n? Math.round(st.done/st.n*100) : 0;
+    const fq=QB.find(q=>q.p===p&&q.ch===ch);
+    const chShow=(lang==='tw'&&fq)? fq.tw.ch : ch;
     const d=document.createElement('div'); d.className='chcard';
-    d.innerHTML=`<div class="chcard-top"><span class="chic">${String(i+1).padStart(2,'0')}</span><h4>${ch}</h4></div>
-      <div class="chmeta"><span>已做 <b>${st.done}</b> / ${st.n}</span><span class="${pct===null?'zer':'ok'}">${pct===null?'未开始':pct+'% 正确'}</span></div>
+    d.innerHTML=`<div class="chcard-top"><span class="chic">${String(i+1).padStart(2,'0')}</span><h4>${chShow}</h4></div>
+      <div class="chmeta"><span>${T('已做','已做')} <b>${st.done}</b> / ${st.n}</span><span class="${pct===null?'zer':'ok'}">${pct===null?T('未开始','未開始'):pct+'% '+T('正确','正確')}</span></div>
       <div class="bar"><i style="width:${w}%"></i></div>`;
     d.onclick=()=>startChapter(p,ch);
     grid.appendChild(d);
@@ -671,7 +768,7 @@ function resumeSession(r){
   else if(r.mode==='random'){ S={mode:'random',label:r.label}; keys=shuffle(QB.slice()).slice(0,ROUND); }
   if(!S) return;
   S.keys=keys||[];
-  if(!S.keys.length){ clearResume(); alert('没有可继续的题目，先开始刷题吧。'); return; }
+  if(!S.keys.length){ clearResume(); alert(T('没有可继续的题目，先开始刷题吧。','沒有可繼續的題目，先開始刷題吧。')); return; }
   S.idx=Math.min(r.idx||0, S.keys.length-1);
   show('quiz'); renderQ(); renderScopeBar();
   document.getElementById('timer').classList.add('hidden');
@@ -679,7 +776,7 @@ function resumeSession(r){
 
 /* ---------------- 视图切换 ---------------- */
 const views=['home','quiz','result','guide'];
-function show(id){ views.forEach(v=>document.getElementById(v).classList.toggle('hidden',v!==id)); window.scrollTo(0,0); }
+function show(id){ VIEW=id; views.forEach(v=>document.getElementById(v).classList.toggle('hidden',v!==id)); const f=document.getElementById('langFixed'); if(f) f.classList.toggle('hidden', id==='quiz'); window.scrollTo(0,0); }
 function showHome(){ stopTimer(); S=null; refreshStats(); show('home'); if(location.hash) history.replaceState(null,'',location.pathname+location.search); }
 function showGuide(){ stopTimer(); S=null; show('guide'); if(location.hash!=='#guide') location.hash='guide'; }
 
@@ -691,13 +788,15 @@ function chapterDeck(p,ch,scope){
   return qs;
 }
 function startChapter(p,ch){
-  S={mode:'chapter', p, ch, scope:'all', label:(p===1?'卷一':'卷三')+' · '+ch, keys:chapterDeck(p,ch,'all'), idx:0};
+  const fq=QB.find(q=>q.p===p&&q.ch===ch);
+  const chShow=(lang==='tw'&&fq)? fq.tw.ch : ch;
+  S={mode:'chapter', p, ch, scope:'all', label:(p===1?'卷一':'卷三')+' · '+chShow, keys:chapterDeck(p,ch,'all'), idx:0};
   show('quiz'); renderQ(); renderScopeBar(); document.getElementById('timer').classList.add('hidden');
 }
 function changeScope(scope){
   if(S.mode!=='chapter') return;
   const deck=chapterDeck(S.p,S.ch,scope);
-  if(!deck.length){ alert(scope==='wrong'?'该章节暂无错题':'该章节暂无未做的题'); return; }
+  if(!deck.length){ alert(scope==='wrong'?T('该章节暂无错题','該章節暫無錯題'):T('该章节暂无未做的题','該章節暫無未做的題')); return; }
   S.scope=scope; S.keys=deck; S.idx=0; renderQ(); renderScopeBar();
 }
 function weakPool(p){
@@ -707,24 +806,24 @@ function weakPool(p){
 function startSmart(p){
   closeSmart();
   const pool=weakPool(p);
-  if(!pool.length){ alert('太棒了，这个范围已全部掌握！错题与未做都清零了。'); return; }
-  S={mode:'smart', p, label:'智能刷题 · '+(p===1?'卷一':p===3?'卷三':'全部'), keys:pool.slice(0,ROUND), idx:0};
+  if(!pool.length){ alert(T('太棒了，这个范围已全部掌握！错题与未做都清零了。','太棒了，這個範圍已全部掌握！錯題與未做都清零了。')); return; }
+  S={mode:'smart', p, label:T('智能刷题 · ','智能刷題 · ')+(p===1?'卷一':p===3?'卷三':'全部'), keys:pool.slice(0,ROUND), idx:0};
   show('quiz'); renderQ(); renderScopeBar(); document.getElementById('timer').classList.add('hidden');
 }
 function startRandom(){
-  S={mode:'random', label:'随机刷题 · 20 题', keys:shuffle(QB.slice()).slice(0,ROUND), idx:0};
+  S={mode:'random', label:T('随机刷题 · 20 题','隨機刷題 · 20 題'), keys:shuffle(QB.slice()).slice(0,ROUND), idx:0};
   show('quiz'); renderQ(); renderScopeBar(); document.getElementById('timer').classList.add('hidden');
 }
 function startSeq(p){
   const pool=QB.filter(q=>q.p===p);
   if(!pool.length) return;
-  S={mode:'seq', p, label:(p===1?'卷一':'卷三')+' · 整卷顺序', pool, cursor:0, keys:pool.slice(0,ROUND), idx:0};
+  S={mode:'seq', p, label:(p===1?'卷一':'卷三')+T(' · 整卷顺序',' · 整卷順序'), pool, cursor:0, keys:pool.slice(0,ROUND), idx:0};
   show('quiz'); renderQ(); renderScopeBar(); document.getElementById('timer').classList.add('hidden');
 }
 function startWrong(){
   const qs=QB.filter(q=>wrongSet.has(keyOf(q)));
-  if(!qs.length){ alert('错题本是空的，先去刷题吧！'); return; }
-  S={mode:'wrong', label:'错题本', keys:qs, idx:0};
+  if(!qs.length){ alert(T('错题本是空的，先去刷题吧！','錯題本是空的，先去刷題吧！')); return; }
+  S={mode:'wrong', label:T('错题本','錯題本'), keys:qs, idx:0};
   show('quiz'); renderQ(); renderScopeBar(); document.getElementById('timer').classList.add('hidden');
 }
 
@@ -747,7 +846,7 @@ function startMock(p){
     S.left--;
     const m=String(Math.floor(S.left/60)).padStart(2,'0'), s=String(S.left%60).padStart(2,'0');
     t.textContent=m+':'+s;
-    if(S.left<=0){ stopTimer(); alert('时间到！系统已自动交卷。'); submitMock(); }
+    if(S.left<=0){ stopTimer(); alert(T('时间到！系统已自动交卷。','時間到！系統已自動交卷。')); submitMock(); }
   },1000);
   t.textContent=Math.floor(secs/60)+':00';
 }
@@ -774,19 +873,20 @@ function renderScopeBar(){
 function renderQ(){
   if(!S || !S.keys.length){ showHome(); return; }
   const qs=S.keys, idx=S.idx, q=qs[idx];
+  const qL=qq(q);
   document.getElementById('pfill').style.width=((idx+1)/qs.length*100)+'%';
   setText('qcounter', (idx+1)+' / '+qs.length);
   const chip=document.getElementById('qchip');
-  chip.textContent=(q.p===1?'卷一':'卷三')+' · '+q.ch;
+  chip.textContent=(q.p===1?'卷一':'卷三')+' · '+qL.ch;
   chip.classList.toggle('warn', S.mode==='mock');
-  if(S.mode==='mock') chip.textContent+=' ｜ 模拟考';
+  if(S.mode==='mock') chip.textContent+=T(' ｜ 模拟考',' ｜ 模擬考');
   const src=document.getElementById('srcchip');
-  src.textContent = q.src? '真实题':'原创';
+  src.textContent = q.src? T('真实题','真實題') : T('原创','原創');
   src.classList.toggle('real', !!q.src);
-  setText('qtext', (idx+1)+'. '+q.q);
+  setText('qtext', (idx+1)+'. '+qL.q);
   const box=document.getElementById('opts'); box.innerHTML='';
   const rec = S.mode==='mock' ? (S.answers[keyOf(q)]!==undefined?S.answers[keyOf(q)]:undefined) : recMap[keyOf(q)];
-  q.o.forEach((t,i)=>{
+  qL.o.forEach((t,i)=>{
     const d=document.createElement('div'); d.className='opt';
     const k=document.createElement('span'); k.className='k'; k.textContent='ABCD'[i];
     const tt=document.createElement('span'); tt.textContent=t;
@@ -808,17 +908,17 @@ function renderQ(){
   if(S.mode!=='mock' && rec!==undefined){
     const r=recMap[keyOf(q)];
     exp.className='exp show '+(r.ok?'good':'bad');
-    exp.innerHTML=`<b>${r.ok?'✓ 回答正确':'✗ 回答错误'}　<span class="ans">正确答案：${'ABCD'[q.a]}</span>（你的答案：${'ABCD'[r.sel]}）</b>${q.e}`;
+    exp.innerHTML=`<b>${r.ok?T('✓ 回答正确','✓ 回答正確'):T('✗ 回答错误','✗ 回答錯誤')}　<span class="ans">${T('正确答案：','正確答案：')}${'ABCD'[q.a]}</span>（${T('你的答案：','你的答案：')}${'ABCD'[r.sel]}）</b>${qL.e}`;
   }else if(S.mode==='mock'&&S.answers[keyOf(q)]!==undefined){
-    exp.className='exp show good'; exp.innerHTML=`<b>已作答：${'ABCD'[S.answers[keyOf(q)]]}（模拟考交卷后显示对错）</b>`;
+    exp.className='exp show good'; exp.innerHTML=`<b>${T('已作答：','已作答：')}${'ABCD'[S.answers[keyOf(q)]]}${T('（模拟考交卷后显示对错）','（模擬考交卷後顯示對錯）')}</b>`;
   }else{ exp.className='exp'; exp.innerHTML=''; }
   document.getElementById('btnPrev').style.visibility=idx===0?'hidden':'visible';
   const nx=document.getElementById('btnNext');
   const last=idx===qs.length-1;
   if(last){
-    if(S.mode==='mock'){ nx.textContent='交卷判分 ✓'; nx.onclick=confirmSubmit; }
-    else{ nx.textContent='完成本组 ✓'; nx.onclick=finishRound; }
-  }else{ nx.textContent='下一题 →'; nx.onclick=nextQ; }
+    if(S.mode==='mock'){ nx.textContent=T('交卷判分 ✓','交卷判分 ✓'); nx.onclick=confirmSubmit; }
+    else{ nx.textContent=T('完成本组 ✓','完成本組 ✓'); nx.onclick=finishRound; }
+  }else{ nx.textContent=T('下一题 →','下一題 →'); nx.onclick=nextQ; }
   const dg=document.getElementById('dots'); dg.innerHTML='';
   if(qs.length<=80){
     qs.forEach((qq,i)=>{
@@ -850,7 +950,7 @@ function pick(i){
 function nextQ(){ if(S && S.idx<S.keys.length-1){S.idx++;renderQ();} }
 function prevQ(){ if(S && S.idx>0){S.idx--;renderQ();} }
 function exitQuiz(){
-  if(S && S.mode==='mock' && !confirm('模拟考尚未交卷，退出将不保存本次成绩，确定退出？')) return;
+  if(S && S.mode==='mock' && !confirm(T('模拟考尚未交卷，退出将不保存本次成绩，确定退出？','模擬考尚未交卷，退出將不保存本次成績，確定退出？'))) return;
   stopTimer(); showHome();
 }
 
@@ -860,20 +960,20 @@ function finishRound(){
   let ok=0; S.keys.forEach(q=>{ const r=recMap[keyOf(q)]; if(r&&r.ok)ok++; });
   const wrong=S.keys.filter(q=>{ const r=recMap[keyOf(q)]; return !r||!r.ok; });
   const pct=Math.round(ok/n*100);
-  const r={title:S.label+' · 本组完成', pct, ok, n, wrong, mock:false};
+  const r={title:S.label+T(' · 本组完成',' · 本組完成'), pct, ok, n, wrong, mock:false};
   if(S.mode==='smart'){
     const rem=weakPool(S.p).length;
-    if(rem>0) r.onMore={label:'再来 '+Math.min(ROUND,rem)+' 题', fn:()=>{ const pool=weakPool(S.p); S.keys=pool.slice(0,ROUND); S.idx=0; show('quiz'); renderQ(); }};
+    if(rem>0) r.onMore={label:T('再来 ','再來 ')+Math.min(ROUND,rem)+T(' 题',' 題'), fn:()=>{ const pool=weakPool(S.p); S.keys=pool.slice(0,ROUND); S.idx=0; show('quiz'); renderQ(); }};
   }else if(S.mode==='seq'){
     if(S.cursor+S.keys.length < S.pool.length){
-      r.onMore={label:'下一组 20 题', fn:()=>{ S.cursor += S.keys.length; S.keys=S.pool.slice(S.cursor,S.cursor+ROUND); S.idx=0; show('quiz'); renderQ(); }};
+      r.onMore={label:T('下一组 20 题','下一組 20 題'), fn:()=>{ S.cursor += S.keys.length; S.keys=S.pool.slice(S.cursor,S.cursor+ROUND); S.idx=0; show('quiz'); renderQ(); }};
     }
   }
   showResult(r);
 }
 function confirmSubmit(){
   const un=S.keys.length-Object.keys(S.answers).length;
-  if(!confirm(`确定交卷？还有 ${un} 题未作答。`)) return;
+  if(!confirm(T('确定交卷？还有 ','確定交卷？還有 ')+un+T(' 题未作答。',' 題未作答。'))) return;
   submitMock();
 }
 function submitMock(){
@@ -885,11 +985,15 @@ function submitMock(){
   const n=S.keys.length, pct=Math.round(ok/n*100), pass=pct>=70;
   wrong.forEach(w=>wrongSet.add(keyOf(w.q))); save(LS.wrong,[...wrongSet]);
   wrong.forEach(w=>{ recMap[keyOf(w.q)]={sel:w.sel??-1,ok:false}; }); save(LS.rec,recMap);
-  showResult({title:S.p===1?'卷一 模拟考成绩':'卷三 模拟考成绩',pct,ok,n,wrong:wrong.map(w=>w.q),selMap:S.answers,mock:true,pass});
+  showResult({title:S.p===1?T('卷一 模拟考成绩','卷一 模擬考成績'):T('卷三 模拟考成绩','卷三 模擬考成績'),pct,ok,n,wrong:wrong.map(w=>w.q),selMap:S.answers,mock:true,pass});
 }
 function showResult(r){
+  lastResult = r;
   show('result');
   if(!r.mock) clearResume();
+  renderResult(r);
+}
+function renderResult(r){
   setText('rSub', r.title);
   const stamp=document.getElementById('rStamp');
   if(r.mock){ stamp.innerHTML=`<div class="stamp ${r.pass?'pass':'fail'}">${r.pass?'及格':'不及格'}</div>`; }
@@ -897,8 +1001,8 @@ function showResult(r){
   const sc=document.getElementById('rScore');
   sc.textContent=r.pct+' 分';
   sc.className='score '+(r.mock?(r.pass?'pass':'fail'):'');
-  setText('rVerdict', r.mock?(r.pass?'达到 70 分合格线':'未达 70 分合格线，再接再厉'):`答对 ${r.ok} / ${r.n} 题`);
-  setText('rMeta', r.mock?`答对 ${r.ok} 题 / 共 ${r.n} 题`:'本组已完成，可继续下一组或返回首页');
+  setText('rVerdict', r.mock?(r.pass?T('达到 70 分合格线','達到 70 分合格線'):T('未达 70 分合格线，再接再厉','未達 70 分合格線，再接再厲')):T('答对','答對')+` ${r.ok} / ${r.n} `+T('题','題'));
+  setText('rMeta', r.mock?T('答对','答對')+` ${r.ok} `+T('题','題')+T(' / 共 ',' / 共 ')+`${r.n} `+T('题','題'):T('本组已完成，可继续下一组或返回首页','本組已完成，可繼續下一組或返回首頁'));
   const more=document.getElementById('btnMore');
   if(r.onMore){ more.classList.remove('hidden'); more.textContent=r.onMore.label; more.onclick=r.onMore.fn; }
   else more.classList.add('hidden');
@@ -907,14 +1011,15 @@ function showResult(r){
   document.getElementById('revList').innerHTML='';
   if(r.wrong.length){
     const h=document.createElement('div'); h.className='sec-title'; h.style.marginTop='24px';
-    h.textContent=`本次错题回顾（${r.wrong.length} 题）`;
+    h.textContent=T('本次错题回顾（','本次錯題回顧（')+r.wrong.length+T(' 题）',' 題）');
     document.getElementById('revList').appendChild(h);
     r.wrong.forEach(q=>{
       const k=keyOf(q), my=r.selMap? r.selMap[k] : (recMap[k]?recMap[k].sel:-1);
+      const qL=qq(q);
       const d=document.createElement('div'); d.className='revitem';
-      d.innerHTML=`<div class="rq">${q.q}</div>
-        <div>你的答案：<span class="my">${my>=0?'ABCD'[my]:'未作答'}</span>　正确答案：<span class="rt">${'ABCD'[q.a]} · ${q.o[q.a]}</span></div>
-        <div class="re">解析：${q.e}</div>`;
+      d.innerHTML=`<div class="rq">${qL.q}</div>
+        <div>${T('你的答案：','你的答案：')}<span class="my">${my>=0?'ABCD'[my]:'未作答'}</span>　${T('正确答案：','正確答案：')}<span class="rt">${'ABCD'[q.a]} · ${qL.o[q.a]}</span></div>
+        <div class="re">${T('解析：','解析：')}${qL.e}</div>`;
       document.getElementById('revList').appendChild(d);
     });
   }
@@ -922,11 +1027,35 @@ function showResult(r){
 }
 function reviewWrong(){
   const qs=QB.filter(q=>wrongSet.has(keyOf(q)));
-  if(!qs.length){ alert('错题本已清空，太棒了！'); return; }
-  S={mode:'wrong', label:'错题本', keys:qs, idx:0}; show('quiz'); renderQ(); renderScopeBar();
+  if(!qs.length){ alert(T('错题本已清空，太棒了！','錯題本已清空，太棒了！')); return; }
+  S={mode:'wrong', label:T('错题本','錯題本'), keys:qs, idx:0}; show('quiz'); renderQ(); renderScopeBar();
 }
 
+function applyI18n(){
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = lang==='tw' ? el.dataset.tw : el.dataset.cn;
+    if (v != null) el.innerHTML = v;
+  });
+  setBankFacts();
+}
+function syncLangChrome(){
+  document.documentElement.lang = lang==='tw' ? 'zh-HK' : 'zh-CN';
+  document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on', b.dataset.lang===lang));
+  document.querySelectorAll('#scopeBar button').forEach(b=>{ b.textContent = {all:T('全部','全部'),undone:T('未做','未做'),wrong:T('错题','錯題')}[b.dataset.scope]; });
+  const pv=document.getElementById('btnPrev'); if(pv) pv.textContent = T('← 上一题','← 上一題');
+  applyI18n();
+}
+function setLang(l){
+  if(lang===l){ syncLangChrome(); return; }
+  lang = l;
+  save(LS.lang, l);
+  syncLangChrome();
+  if(VIEW==='quiz' && S){ renderQ(); renderScopeBar(); }
+  else if(VIEW==='home'){ refreshStats(); }
+  else if(VIEW==='result' && lastResult){ renderResult(lastResult); }
+}
 function boot(){
+  syncLangChrome();
   setBankFacts();
   if(location.hash==='#guide'){ show('guide'); }
   else { refreshStats(); }
