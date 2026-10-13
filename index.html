@@ -124,10 +124,16 @@ button{font-family:inherit}
 .pbar{flex:1;height:8px;background:#e9edf4;border-radius:99px;overflow:hidden}
 .pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .3s}
 .qcounter{font-size:12px;color:var(--sub);font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tally{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tally .tg{color:var(--pass)}
+.tally .tb{color:var(--fail)}
 .timer{font-variant-numeric:tabular-nums;font-weight:800;color:var(--brass);font-size:15px;white-space:nowrap}
 
 /* ---------- 题目卡片 ---------- */
-.qcard{background:var(--card);border-radius:18px;padding:24px;margin-top:16px;box-shadow:0 6px 18px rgba(20,40,80,.06);border:1px solid var(--line)}
+.qcard{background:var(--card);border-radius:18px;padding:24px;margin-top:16px;box-shadow:0 6px 18px rgba(20,40,80,.06);border:1px solid var(--line);position:relative}
+.favbtn{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:#fff;font-size:20px;line-height:1;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s}
+.favbtn:hover{border-color:#eed89a;color:#c98a00}
+.favbtn.on{color:#e0a100;border-color:#eed89a;background:#fff7e0}
 .seg{display:inline-flex;background:#f1f4f9;border-radius:10px;padding:3px;margin-bottom:14px;gap:2px}
 .seg button{border:1px solid transparent;background:transparent;border-radius:8px;padding:6px 15px;font-size:12.5px;cursor:pointer;color:var(--sub);font-weight:700}
 .seg button.on{background:#fff;border-color:var(--line2);color:var(--brand);box-shadow:0 1px 4px rgba(20,40,80,.08)}
@@ -159,6 +165,8 @@ button{font-family:inherit}
 .dotgrid{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)}
 .dot{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:#fff;font-size:11.5px;cursor:pointer;color:var(--sub);font-weight:600}
 .dot.done{background:var(--brand-soft);border-color:var(--brand2);color:var(--brand);font-weight:800}
+.dot.ok{background:var(--passbg);border-color:var(--pass);color:var(--pass)}
+.dot.bad{background:var(--failbg);border-color:var(--fail);color:var(--fail)}
 .dot.cur{outline:2px solid var(--brand);outline-offset:1px}
 
 /* ---------- 结果 ---------- */
@@ -250,6 +258,39 @@ button{font-family:inherit}
 .paper .tag{margin-left:auto;font-size:11.5px;color:var(--brand);background:var(--brand-soft);border-radius:999px;padding:4px 12px;white-space:nowrap;font-weight:700}
 .modal .foot{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
 
+/* ---------- 考试计划 ---------- */
+.plancard{background:linear-gradient(135deg,#eef3ff,#fff);border:1px solid #d6e2fb;border-radius:16px;padding:18px 20px;box-shadow:0 6px 18px rgba(31,63,168,.08)}
+.plancard.plan-empty{display:flex;gap:14px;align-items:center;cursor:pointer;border-style:dashed}
+.plancard.plan-empty:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(31,63,168,.14)}
+.pe-ic{flex:0 0 44px;height:44px;border-radius:12px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:22px}
+.pe-body{flex:1;min-width:0}
+.pe-body b{font-size:14.5px;display:block;margin-bottom:2px}
+.pe-body span{font-size:12.5px;color:var(--sub)}
+.pe-go{color:var(--brand);font-weight:800;font-size:13px;white-space:nowrap}
+.plancard-top{display:flex;align-items:center;gap:16px}
+.pl-days{flex:0 0 auto;min-width:66px;text-align:center;background:var(--brand);color:#fff;border-radius:14px;padding:9px 12px}
+.pl-days b{display:block;font-family:var(--serif);font-size:26px;line-height:1;font-weight:700;font-variant-numeric:tabular-nums}
+.pl-days span{font-size:11px;color:#dbe5ff;letter-spacing:1px;white-space:nowrap}
+.pl-info{flex:1;min-width:0}
+.pl-title{font-size:15px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl-sub{font-size:12.5px;color:var(--sub);margin-top:3px}
+.pl-edit{flex:0 0 auto;border:1px solid var(--line2);background:#fff;color:var(--sub);border-radius:9px;padding:5px 12px;font-size:12.5px;cursor:pointer;font-weight:600}
+.pl-edit:hover{border-color:var(--brand);color:var(--brand)}
+.pl-bar{height:7px;background:#e4ecfb;border-radius:99px;overflow:hidden;margin:14px 0 12px}
+.pl-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:99px;transition:width .4s}
+.pl-foot{display:flex;align-items:center;gap:14px;font-size:12.5px;color:var(--sub);flex-wrap:wrap}
+.pl-foot b{color:var(--ink);font-variant-numeric:tabular-nums}
+.pl-today{margin-left:auto}
+.pl-today.done{color:var(--pass);font-weight:700;margin-left:0}
+.pl-go{flex:0 0 auto;border-radius:10px;padding:8px 16px;font-size:13px}
+.pl-field{display:block;margin-bottom:14px}
+.pl-label{font-size:12.5px;font-weight:700;color:var(--ink2);margin-bottom:6px;display:block}
+input[type=date]{width:100%;border:1.5px solid var(--line);border-radius:11px;padding:10px 12px;font-size:14px;color:var(--ink);font-family:inherit;background:#fff}
+input[type=date]:focus{outline:none;border-color:var(--brand2)}
+#planModal .paper .tag{opacity:0}
+#planModal .paper.sel{border-color:var(--brand);background:#f4f7ff;box-shadow:0 4px 14px rgba(31,63,168,.14)}
+#planModal .paper.sel .tag{opacity:1}
+
 .hidden{display:none!important}
 
 @media(max-width:640px){
@@ -314,6 +355,9 @@ button{font-family:inherit}
       <div class="go" data-i18n data-tw="接着刷 →">接着刷 →</div>
     </div>
 
+    <div class="sec-title" data-i18n data-tw="考試計劃 · 倒排刷題">考试计划 · 倒排刷题<span class="hint" data-i18n data-tw="訂目標日，自動排每日題量">订目标日，自动排每日题量</span></div>
+    <div id="planBox"></div>
+
     <div class="sec-title" data-i18n data-tw="快速開刷">快速开刷</div>
     <div class="grid2">
       <div class="card tint" onclick="openSmart()">
@@ -339,6 +383,12 @@ button{font-family:inherit}
         <h3 data-i18n data-tw="錯題本">错题本</h3>
         <p data-i18n data-tw="答過的錯題自動收錄，考前把錯題清零是最快的提分方式。">答过的错题自动收录，考前把错题清零是最快的提分方式。</p>
         <div class="go" data-i18n data-tw="重做錯題 →">重做错题 →</div>
+      </div>
+      <div class="card" onclick="startFav()">
+        <div class="ic" style="background:#fff7e0">⭐</div>
+        <h3>收藏本<span class="mini" id="favMini">0</span></h3>
+        <p data-i18n data-tw="手動星標的重點題、易錯點，考前集中回看直到清零。">手动星标的重点题、易错点，考前集中回看直到清零。</p>
+        <div class="go" data-i18n data-tw="做收藏的題 →">做收藏的题 →</div>
       </div>
     </div>
 
@@ -378,6 +428,7 @@ button{font-family:inherit}
     <button class="btn" onclick="exitQuiz()">← 退出</button>
     <div class="pbar"><i id="pfill" style="width:0%"></i></div>
     <span class="qcounter" id="qcounter"></span>
+    <span class="tally hidden" id="tally"></span>
     <span class="timer hidden" id="timer"></span>
     <div class="lang" id="langTop"><button type="button" data-lang="cn" onclick="setLang('cn')">简</button><button type="button" data-lang="tw" onclick="setLang('tw')">繁</button></div>
   </div></div>
@@ -390,6 +441,7 @@ button{font-family:inherit}
       </div>
       <span class="chip" id="qchip"></span>
       <span class="chip src" id="srcchip"></span>
+      <button id="favBtn" class="favbtn" onclick="toggleFav()" aria-label="收藏">☆</button>
       <div class="qtext" id="qtext"></div>
       <div id="opts"></div>
       <div class="exp" id="exp"></div>
@@ -675,20 +727,55 @@ button{font-family:inherit}
   </div>
 </div>
 
+<!-- ============ 考试计划设置 ============ -->
+<div id="planModal" class="mask hidden" onclick="if(event.target===this)closePlan()">
+  <div class="modal" style="max-width:460px">
+    <h2 data-i18n data-tw="🗓️ 設定考試目標">🗓️ 设定考试目标</h2>
+    <div class="msub" data-i18n data-tw="定一個目標日期，按「未做＋錯題」倒排每天題量，一天一組 20 題起。">定一个目标日期，按「未做＋错题」倒排每天题量，一天一组 20 题起。</div>
+    <div class="pl-field">
+      <span class="pl-label" data-i18n data-tw="考試日期">考试日期</span>
+      <input type="date" id="planDate">
+    </div>
+    <div class="pl-label" data-i18n data-tw="考試範圍">考试范围</div>
+    <div class="paper" data-plan-p="1" onclick="pickPlanScope(1)">
+      <div class="pi" style="background:#eef3ff">📘</div>
+      <div data-i18n data-tw="&lt;b&gt;卷一 · 保險原理及實務&lt;/b&gt;&lt;span&gt;只排卷一的未做與錯題&lt;/span&gt;"><b>卷一 · 保险原理及实务</b><span>只排卷一的未做与错题</span></div>
+      <span class="tag">✓</span>
+    </div>
+    <div class="paper" data-plan-p="3" onclick="pickPlanScope(3)">
+      <div class="pi" style="background:#eafaf2">📗</div>
+      <div data-i18n data-tw="&lt;b&gt;卷三 · 長期保險&lt;/b&gt;&lt;span&gt;只排卷三的未做與錯題&lt;/span&gt;"><b>卷三 · 长期保险</b><span>只排卷三的未做与错题</span></div>
+      <span class="tag">✓</span>
+    </div>
+    <div class="paper" data-plan-p="0" onclick="pickPlanScope(0)">
+      <div class="pi" style="background:#f0e9fd">🧭</div>
+      <div data-i18n data-tw="&lt;b&gt;全部試卷&lt;/b&gt;&lt;span&gt;卷一＋卷三一起排&lt;/span&gt;"><b>全部试卷</b><span>卷一＋卷三一起排</span></div>
+      <span class="tag">✓</span>
+    </div>
+    <div class="foot">
+      <button class="btn" onclick="closePlan()">取消</button>
+      <button class="btn danger" id="btnPlanClear" onclick="clearPlan()" data-i18n data-tw="清除目標">清除目标</button>
+      <button class="btn primary" onclick="savePlan()" data-i18n data-tw="保存">保存</button>
+    </div>
+  </div>
+</div>
+
 <script src="questions.js"></script>
 <script>
 /* ---------------- 状态 ---------------- */
 const QB = window.QBANK;
-const LS = { rec:'iiqe_rec', wrong:'iiqe_wrong', resume:'iiqe_resume', lang:'iiqe_lang' };
+const LS = { rec:'iiqe_rec', wrong:'iiqe_wrong', fav:'iiqe_fav', resume:'iiqe_resume', lang:'iiqe_lang' };
+const PLAN = { plan:'iiqe_plan', day:'iiqe_plan_day' };
 const ROUND = 20;
 const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
 const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
 let recMap  = load(LS.rec, {});      // key -> {sel, ok}
 let wrongSet = new Set(load(LS.wrong, []));
-// 记录写入去抖：合并 rec + wrong 的存盘，避免每题一次整库序列化
+let favSet   = new Set(load(LS.fav, []));
+// 记录写入去抖：合并 rec + wrong + fav 的存盘，避免每题一次整库序列化
 let progTimer = null;
 function saveProgress(){ if(progTimer) clearTimeout(progTimer); progTimer = setTimeout(flushProgress, 300); }
-function flushProgress(){ if(progTimer){ clearTimeout(progTimer); progTimer=null; } save(LS.rec, recMap); save(LS.wrong, [...wrongSet]); }
+function flushProgress(){ if(progTimer){ clearTimeout(progTimer); progTimer=null; } save(LS.rec, recMap); save(LS.wrong, [...wrongSet]); save(LS.fav, [...favSet]); }
 window.addEventListener('beforeunload', flushProgress);
 window.addEventListener('pagehide', flushProgress);
 let S = null;                        // 当前会话
@@ -696,6 +783,9 @@ let timerId = null;
 let lang = load(LS.lang, 'cn');
 let VIEW = 'home';
 let lastResult = null;
+let plan = load(PLAN.plan, null);         // { exam:'YYYY-MM-DD', p:0|1|3 }
+let planToday = load(PLAN.day, { date:'', n:0 });
+let planScope = 0;
 const T = (cn, tw) => (lang === 'tw' ? (tw || cn) : cn);
 const qq = q => (lang === 'tw' ? q.tw : q);
 document.querySelectorAll('[data-i18n]').forEach(el => { el.dataset.cn = el.innerHTML; });
@@ -740,6 +830,8 @@ function refreshStats(){
   setText('stDone', doneN);
   setText('stAcc', acc===null?'—':acc+'%');
   setText('stWrong', wrongSet.size);
+  setText('favMini', favSet.size);
+  const fm=document.getElementById('favMini'); if(fm) fm.style.display = favSet.size?'inline':'none';
   // 印章（合格度）
   setText('sealPct', acc===null?'—':acc+'%');
   setText('sealGap', acc===null?T('开始刷题，迈向 70 分及格线','開始刷題，邁向 70 分及格線')
@@ -748,6 +840,113 @@ function refreshStats(){
   renderChapterGrid(1);
   renderChapterGrid(3);
   renderResume();
+  renderPlan();
+}
+
+/* ---------------- 考试计划：目标日期 + 倒排每日题量 ---------------- */
+function todayStr(){
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function planDayTick(){
+  const t = todayStr();
+  if(planToday.date !== t){ planToday = { date:t, n:0 }; }
+  planToday.n++;
+  save(PLAN.day, planToday);
+}
+function planRemaining(p){
+  const qs = p ? QB.filter(q=>q.p===p) : QB;
+  let wrong=0, undone=0;
+  for(const q of qs){ const k=keyOf(q); if(wrongSet.has(k)) wrong++; else if(!recMap[k]) undone++; }
+  return { wrong, undone, total: wrong+undone };
+}
+const planName = p => (p===1?'卷一':p===3?'卷三':'全部');
+function planCompute(){
+  if(!plan || !plan.exam) return null;
+  const today = new Date(todayStr()+'T00:00:00');
+  const exam = new Date(plan.exam+'T00:00:00');
+  const df = (exam - today)/86400000;
+  const rem = planRemaining(plan.p);
+  if(df < 0) return { expired:true, df, days:0, rem, daily:0, groups:0, todayN:0, left:0 };
+  const days = Math.max(1, Math.ceil(df));
+  const groups = rem.total===0 ? 0 : Math.max(1, Math.ceil(rem.total / days / ROUND));
+  const daily = groups * ROUND;
+  const todayN = planToday.date===todayStr() ? planToday.n : 0;
+  return { expired:false, df, days, rem, daily, groups, todayN, left:Math.max(0, daily-todayN) };
+}
+function renderPlan(){
+  const box = document.getElementById('planBox');
+  if(!box) return;
+  const c = planCompute();
+  if(!c){
+    box.innerHTML = `<div class="plancard plan-empty" onclick="openPlan()">
+      <div class="pe-ic">🗓️</div>
+      <div class="pe-body"><b>${T('设定考试目标','設定考試目標')}</b><span>${T('定一个考试日期，自动倒排每天刷多少题','定一個考試日期，自動倒排每天刷多少題')}</span></div>
+      <div class="pe-go">${T('设置 →','設置 →')}</div>
+    </div>`;
+    return;
+  }
+  if(c.expired){
+    box.innerHTML = `<div class="plancard">
+      <div class="pe-ic">⏰</div>
+      <div class="pe-body"><b>${T('考试目标已到期','考試目標已到期')}</b><span>${plan.exam} · ${planName(plan.p)}</span></div>
+      <button class="btn" onclick="openPlan()">${T('更新','更新')}</button>
+    </div>`;
+    return;
+  }
+  let big, small;
+  if(c.df < 1){ big='今'; small=T('天考试','天考試'); }
+  else if(c.df < 2){ big='明'; small=T('天考试','天考試'); }
+  else { big=Math.ceil(c.df); small=T('天后考试','天後考試'); }
+  const pct = c.daily ? Math.min(100, Math.round(c.todayN/c.daily*100)) : 100;
+  const title = `📅 ${plan.exam} · ${planName(plan.p)}`;
+  const sub = c.rem.total===0
+    ? T('🎉 已全部刷完，等待考试','🎉 已全部刷完，等待考試')
+    : `${T('剩余未做','剩餘未做')} ${c.rem.undone} · ${T('错题','錯題')} ${c.rem.wrong}`;
+  let foot='', goBtn='';
+  if(c.rem.total===0){
+    foot = `<span class="pl-today done">${T('已全部掌握 ✓','已全部掌握 ✓')}</span>`;
+  }else{
+    foot = `<span>${T('每天','每天')} <b>${c.daily}</b> ${T('题','題')} · ${c.groups} ${T('组','組')}</span>
+      <span class="pl-today">${T('今日','今日')} <b>${c.todayN}</b> / ${c.daily}</span>`;
+    goBtn = `<button class="btn primary pl-go" onclick="startSmart(${plan.p})">${T('开始今天的 →','開始今天的 →')}</button>`;
+  }
+  box.innerHTML = `<div class="plancard">
+    <div class="plancard-top">
+      <div class="pl-days"><b>${big}</b><span>${small}</span></div>
+      <div class="pl-info">
+        <div class="pl-title">${title}</div>
+        <div class="pl-sub">${sub}</div>
+      </div>
+      <button class="pl-edit" onclick="openPlan()">${T('修改','修改')}</button>
+    </div>
+    <div class="pl-bar"><i style="width:${pct}%"></i></div>
+    <div class="pl-foot">${foot}${goBtn}</div>
+  </div>`;
+}
+function openPlan(){
+  planScope = plan ? plan.p : 0;
+  const inp = document.getElementById('planDate');
+  inp.value = plan && plan.exam ? plan.exam : (()=>{ const d=new Date(Date.now()+30*86400000); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); })();
+  renderPlanScopeSel();
+  document.getElementById('btnPlanClear').style.display = plan ? '' : 'none';
+  document.getElementById('planModal').classList.remove('hidden');
+}
+function closePlan(){ document.getElementById('planModal').classList.add('hidden'); }
+function pickPlanScope(p){ planScope = p; renderPlanScopeSel(); }
+function renderPlanScopeSel(){
+  document.querySelectorAll('#planModal .paper').forEach(el=>el.classList.toggle('sel', +el.dataset.planP === planScope));
+}
+function savePlan(){
+  const v = document.getElementById('planDate').value;
+  if(!v){ alert(T('请选择考试日期','請選擇考試日期')); return; }
+  plan = { exam:v, p:planScope };
+  save(PLAN.plan, plan);
+  closePlan(); renderPlan();
+}
+function clearPlan(){
+  if(!confirm(T('清除考试目标？','清除考試目標？'))) return;
+  plan = null; save(PLAN.plan, null); closePlan(); renderPlan();
 }
 function renderChapterGrid(p){
   const grid=document.getElementById('chGrid'+p); grid.innerHTML='';
@@ -783,6 +982,7 @@ function resumeSession(r){
   if(r.mode==='chapter'){ S={mode:'chapter',p:r.p,ch:r.ch,scope:r.scope||'all',label:r.label}; keys=chapterDeck(r.p,r.ch,r.scope); }
   else if(r.mode==='seq'){ const pool=QB.filter(q=>q.p===r.p); S={mode:'seq',p:r.p,label:r.label,pool,cursor:r.cursor||0}; keys=pool.slice(S.cursor,S.cursor+ROUND); }
   else if(r.mode==='wrong'){ S={mode:'wrong',label:r.label}; keys=QB.filter(q=>wrongSet.has(keyOf(q))); }
+  else if(r.mode==='fav'){ S={mode:'fav',label:r.label}; keys=QB.filter(q=>favSet.has(keyOf(q))); }
   else if(r.mode==='smart'){ S={mode:'smart',p:r.p,label:r.label}; keys=weakPool(r.p).slice(0,ROUND); }
   else if(r.mode==='random'){ S={mode:'random',label:r.label}; keys=shuffle(QB.slice()).slice(0,ROUND); }
   if(!S) return;
@@ -845,6 +1045,26 @@ function startWrong(){
   S={mode:'wrong', label:T('错题本','錯題本'), keys:qs, idx:0};
   show('quiz'); renderQ(); renderScopeBar(); document.getElementById('timer').classList.add('hidden');
 }
+function startFav(){
+  const qs=QB.filter(q=>favSet.has(keyOf(q)));
+  if(!qs.length){ alert(T('还没有收藏的题，答题时点右上角的 ☆ 收藏重点题。','還沒有收藏的題，答題時點右上角的 ☆ 收藏重點題。')); return; }
+  S={mode:'fav', label:T('收藏本','收藏本'), keys:qs, idx:0};
+  show('quiz'); renderQ(); renderScopeBar(); document.getElementById('timer').classList.add('hidden');
+}
+function toggleFav(){
+  if(!S) return;
+  const k=keyOf(S.keys[S.idx]);
+  if(favSet.has(k)) favSet.delete(k); else favSet.add(k);
+  saveProgress();
+  renderFavBtn();
+}
+function renderFavBtn(){
+  const btn=document.getElementById('favBtn');
+  const on=favSet.has(keyOf(S.keys[S.idx]));
+  btn.classList.toggle('on', on);
+  btn.textContent = on ? '★' : '☆';
+  btn.setAttribute('aria-label', on ? T('取消收藏','取消收藏') : T('收藏','收藏'));
+}
 
 /* ---------------- 模拟考试 ---------------- */
 function openMock(){ document.getElementById('mockModal').classList.remove('hidden'); }
@@ -877,7 +1097,7 @@ function closeReset(){ document.getElementById('resetModal').classList.add('hidd
 function doReset(){
   if(progTimer){ clearTimeout(progTimer); progTimer=null; }
   Object.values(LS).forEach(k=>localStorage.removeItem(k));
-  recMap={}; wrongSet=new Set(); closeReset(); clearResume(); refreshStats();
+  recMap={}; wrongSet=new Set(); favSet=new Set(); closeReset(); clearResume(); refreshStats();
 }
 
 /* ---------------- 范围切换条 ---------------- */
@@ -939,19 +1159,33 @@ function renderQ(){
     if(S.mode==='mock'){ nx.textContent=T('交卷判分 ✓','交卷判分 ✓'); nx.onclick=confirmSubmit; }
     else{ nx.textContent=T('完成本组 ✓','完成本組 ✓'); nx.onclick=finishRound; }
   }else{ nx.textContent=T('下一题 →','下一題 →'); nx.onclick=nextQ; }
+  const t=document.getElementById('tally');
+  if(S.mode==='mock'){ t.className='tally hidden'; }
+  else{
+    let okN=0, badN=0;
+    qs.forEach(q=>{ const r=recMap[keyOf(q)]; if(r){ r.ok?okN++:badN++; } });
+    t.className='tally';
+    t.innerHTML=`<span class="tg">✓ ${okN}</span><span class="tb">✗ ${badN}</span>`;
+  }
   const dg=document.getElementById('dots'); dg.innerHTML='';
   if(qs.length<=80){
     qs.forEach((qq,i)=>{
       const b=document.createElement('button'); b.className='dot';
       b.textContent=i+1;
       const k=keyOf(qq);
-      const done = S.mode==='mock' ? S.answers[k]!==undefined : recMap[k]!==undefined;
-      if(done) b.classList.add('done'); if(i===idx) b.classList.add('cur');
+      if(S.mode==='mock'){
+        if(S.answers[k]!==undefined) b.classList.add('done');
+      }else{
+        const r=recMap[k];
+        if(r) b.classList.add(r.ok?'ok':'bad');
+      }
+      if(i===idx) b.classList.add('cur');
       b.onclick=()=>{S.idx=i;renderQ();};
       dg.appendChild(b);
     });
   }
   saveResume();
+  renderFavBtn();
 }
 function pick(i){
   if(!S) return;
@@ -964,6 +1198,7 @@ function pick(i){
     recMap[k]={sel:i,ok};
     if(ok) wrongSet.delete(k); else wrongSet.add(k);
     saveProgress();
+    planDayTick();
     renderQ();
   }
 }
