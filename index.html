@@ -81,6 +81,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .chaprow:hover{border-color:var(--brand)}
 .chaprow .pc{font-size:12px;color:var(--sub)}
 .empty{text-align:center;color:var(--sub);padding:50px 0;font-size:14px}
+/* modal */
+.mask{position:fixed;inset:0;background:rgba(16,26,44,.45);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px;animation:fadeIn .18s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:20px;padding:26px;width:100%;max-width:540px;box-shadow:0 24px 60px rgba(10,25,60,.25);animation:pop .22s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes pop{from{transform:translateY(14px) scale(.97);opacity:0}to{transform:none;opacity:1}}
+.modal h2{font-size:18px;margin-bottom:4px}
+.modal .msub{font-size:12.5px;color:var(--sub);margin-bottom:18px;line-height:1.6}
+.paper{display:flex;gap:14px;align-items:center;border:1.5px solid var(--line);border-radius:14px;padding:15px 16px;margin-bottom:10px;cursor:pointer;transition:all .15s}
+.paper:hover{border-color:var(--brand);background:#f6faff;transform:translateY(-1px);box-shadow:0 6px 16px rgba(26,110,224,.12)}
+.paper .pi{flex:0 0 46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.paper b{font-size:15px;display:block;margin-bottom:2px}
+.paper span{font-size:12px;color:var(--sub)}
+.paper .tag{margin-left:auto;font-size:11.5px;color:var(--brand);background:#eef4ff;border-radius:999px;padding:4px 12px;white-space:nowrap;font-weight:600}
+.modal .foot{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
+.btn.danger{border-color:#f3c1c1;color:var(--bad);font-weight:600}
+.btn.danger:hover{background:var(--badbg);border-color:var(--bad);color:var(--bad)}
 </style>
 </head>
 <body>
@@ -123,7 +139,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
         <p>打乱顺序抽题作答，模拟真实考试的不确定感，检验真实掌握程度。</p>
         <div class="go">随机抽题 →</div>
       </div>
-      <div class="card" onclick="startMock()">
+      <div class="card" onclick="openMock()">
         <div class="ic" style="background:#f0e9fd">⏱️</div>
         <h3>模拟考试</h3>
         <p>按真实考试题量与时间计时作答，交卷后判分并给出逐题解析，体验真实考场节奏。</p>
@@ -137,6 +153,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
     <div class="sec-title">错题本</div>
     <div class="chaprow" onclick="startWrong()"><span>❌ 我的错题（答错自动收录）</span><span class="pc" id="wrongCnt">0 题 →</span></div>
+
+    <div class="sec-title">数据管理</div>
+    <div class="chaprow" onclick="openReset()"><span>🗑️ 重置做题记录</span><span class="pc">清空已练 / 正确率 / 错题本 →</span></div>
 
     <div class="note">
       <b>说明</b>：本题库为依据 VTC / 高峰进修学院（PEAK）官方考试范围编写的原创练习题，非官方真题（官方不公布真题）。所有题目均为简体中文，正式考试为中英对照。保险规管细节（费用、时限、守则条文）可能更新，请以官方考试手册及保监局最新公布为准。答题记录仅保存在本机浏览器。
@@ -189,6 +208,37 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
   <div id="revList"></div>
 </div></div>
+
+<!-- ============ 模拟考选卷 ============ -->
+<div id="mockModal" class="mask hidden" onclick="if(event.target===this)closeMock()">
+  <div class="modal">
+    <h2>⏱️ 模拟考试 · 选择试卷</h2>
+    <div class="msub">按真实考试题量与时长从题库随机抽题，计时作答，交卷后判分并给出逐题解析。</div>
+    <div class="paper" onclick="startMock(1)">
+      <div class="pi" style="background:#e8f0ff">📘</div>
+      <div><b>卷一 · 保险原理及实务</b><span>75 题 ｜ 120 分钟 ｜ 合格线 70 分</span></div>
+      <span class="tag">开始 →</span>
+    </div>
+    <div class="paper" onclick="startMock(3)">
+      <div class="pi" style="background:#e6f7f5">📗</div>
+      <div><b>卷三 · 长期保险</b><span>50 题 ｜ 75 分钟 ｜ 合格线 70 分</span></div>
+      <span class="tag">开始 →</span>
+    </div>
+    <div class="foot"><button class="btn" onclick="closeMock()">取消</button></div>
+  </div>
+</div>
+
+<!-- ============ 重置确认 ============ -->
+<div id="resetModal" class="mask hidden" onclick="if(event.target===this)closeReset()">
+  <div class="modal" style="max-width:430px">
+    <h2>🗑️ 重置做题记录？</h2>
+    <div class="msub">将清空本机的已练习题、正确率统计与错题本，此操作无法恢复。题库内容不受影响。</div>
+    <div class="foot">
+      <button class="btn" onclick="closeReset()">取消</button>
+      <button class="btn danger" onclick="doReset()">确认重置</button>
+    </div>
+  </div>
+</div>
 
 <script src="questions.js"></script>
 <script>
@@ -251,8 +301,10 @@ function startWrong(){
 const keyOf=q=>q.p+'-'+q.ch+'-'+QB.indexOf(q);
 
 /* ---------------- 模拟考试 ---------------- */
-function startMock(){
-  const p = confirm('选择试卷：\n「确定」= 卷一《保险原理及实务》（120 分钟 / 75 题）\n「取消」= 卷三《长期保险》（75 分钟 / 50 题）') ? 1:3;
+function openMock(){ document.getElementById('mockModal').classList.remove('hidden'); }
+function closeMock(){ document.getElementById('mockModal').classList.add('hidden'); }
+function startMock(p){
+  closeMock();
   const n = p===1 ? 75 : 50;   // 与真实考试题量一致，从题库随机抽题
   const qs=[...QB.filter(q=>q.p===p)].sort(()=>Math.random()-.5).slice(0,n);
   const secs = p===1 ? 120*60 : 75*60;
@@ -269,6 +321,15 @@ function startMock(){
   t.textContent=Math.floor(secs/60)+':00';
 }
 function stopTimer(){ if(timerId){clearInterval(timerId);timerId=null;} }
+
+/* ---------------- 一键重置 ---------------- */
+function openReset(){ document.getElementById('resetModal').classList.remove('hidden'); }
+function closeReset(){ document.getElementById('resetModal').classList.add('hidden'); }
+function doReset(){
+  Object.values(LS).forEach(k=>localStorage.removeItem(k));
+  doneSet=new Set(); recMap={}; wrongSet=new Set();
+  closeReset(); refreshStats();
+}
 
 /* ---------------- 渲染题目 ---------------- */
 function renderQ(){
