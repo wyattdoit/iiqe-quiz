@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IIQE 刷题神器 · 卷一 & 卷三</title>
+<style>
+:root{
+  --bg:#f4f6fa; --card:#ffffff; --ink:#1c2534; --sub:#6b7688;
+  --brand:#1a6ee0; --brand2:#0ea5a4; --ok:#16a34a; --okbg:#e8f7ee;
+  --bad:#dc2626; --badbg:#fdecec; --line:#e4e8ef; --gold:#d97706;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 60px}
+.hero{background:linear-gradient(135deg,#1558b0,#1a6ee0 55%,#0ea5a4);color:#fff;padding:34px 0 26px;box-shadow:0 2px 14px rgba(21,88,176,.25)}
+.hero .wrap{padding-bottom:0}
+.hero h1{font-size:24px;letter-spacing:.5px}
+.hero p{opacity:.88;font-size:13px;margin-top:8px}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:2px 12px;font-size:12px;margin-right:6px;margin-top:10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:-18px 0 22px}
+.stat{background:var(--card);border-radius:14px;padding:14px 10px;text-align:center;box-shadow:0 4px 16px rgba(20,40,80,.08)}
+.stat b{font-size:20px;display:block}
+.stat span{font-size:12px;color:var(--sub)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+.card{background:var(--card);border-radius:16px;padding:20px;box-shadow:0 4px 16px rgba(20,40,80,.07);cursor:pointer;transition:transform .15s,box-shadow .15s;border:1px solid transparent}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(20,40,80,.12);border-color:var(--brand)}
+.card .ic{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px}
+.card h3{font-size:16px;margin-bottom:6px}
+.card p{font-size:12.5px;color:var(--sub);line-height:1.6}
+.card .go{color:var(--brand);font-size:13px;margin-top:10px;font-weight:600}
+.sec-title{font-size:15px;font-weight:700;margin:26px 0 12px;display:flex;align-items:center;gap:8px}
+.sec-title::before{content:"";width:4px;height:16px;background:var(--brand);border-radius:2px}
+/* quiz */
+.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0}
+.topbar .wrap{padding-bottom:0;display:flex;align-items:center;gap:12px}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 16px;font-size:13.5px;cursor:pointer;color:var(--ink)}
+.btn:hover{border-color:var(--brand);color:var(--brand)}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.btn.primary:hover{filter:brightness(1.08);color:#fff}
+.btn.big{padding:13px 30px;font-size:15px;border-radius:12px}
+.pbar{flex:1;height:8px;background:#e9edf4;border-radius:99px;overflow:hidden}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .3s}
+.timer{font-variant-numeric:tabular-nums;font-weight:700;color:var(--gold);font-size:15px;white-space:nowrap}
+.qcard{background:var(--card);border-radius:16px;padding:24px;margin-top:18px;box-shadow:0 4px 16px rgba(20,40,80,.07)}
+.chip{display:inline-block;font-size:12px;padding:3px 12px;border-radius:999px;background:#eef4ff;color:var(--brand);font-weight:600;margin-bottom:12px}
+.chip.warn{background:#fef3e2;color:var(--gold)}
+.qtext{font-size:17px;line-height:1.7;font-weight:600;margin-bottom:20px}
+.opt{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;font-size:15px;line-height:1.6;transition:all .12s}
+.opt:hover{border-color:var(--brand);background:#f6faff}
+.opt .k{flex:0 0 26px;height:26px;border-radius:50%;background:#eef1f6;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.opt.sel{border-color:var(--brand);background:#eef4ff}
+.opt.correct{border-color:var(--ok);background:var(--okbg)}
+.opt.correct .k{background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.opt.locked{cursor:default}
+.exp{margin-top:16px;border-radius:12px;padding:16px;font-size:14px;line-height:1.75;display:none}
+.exp.show{display:block}
+.exp.good{background:var(--okbg);border:1px solid #bfe6cd}
+.exp.bad{background:var(--badbg);border:1px solid #f3c1c1}
+.exp b{display:block;margin-bottom:4px}
+.exp .ans{color:var(--ok);font-weight:700}
+.qnav{display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:10px}
+.dotgrid{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)}
+.dot{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:#fff;font-size:11.5px;cursor:pointer;color:var(--sub)}
+.dot.done{background:#dbe9ff;border-color:var(--brand);color:var(--brand);font-weight:700}
+.dot.cur{outline:2px solid var(--brand)}
+.result{background:var(--card);border-radius:18px;padding:30px;text-align:center;margin-top:20px;box-shadow:0 4px 16px rgba(20,40,80,.07)}
+.score{font-size:46px;font-weight:800;margin:8px 0}
+.pass{color:var(--ok)} .fail{color:var(--bad)}
+.note{font-size:12px;color:var(--sub);line-height:1.7;margin-top:22px;background:#fff;border:1px dashed var(--line);border-radius:12px;padding:14px 16px}
+.hidden{display:none!important}
+.revitem{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:10px;font-size:14px;line-height:1.7}
+.revitem .rq{font-weight:600;margin-bottom:6px}
+.revitem .my{color:var(--bad);font-weight:600}
+.revitem .rt{color:var(--ok);font-weight:600}
+.revitem .re{color:var(--sub);margin-top:6px}
+.chaprow{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;font-size:14px}
+.chaprow:hover{border-color:var(--brand)}
+.chaprow .pc{font-size:12px;color:var(--sub)}
+.empty{text-align:center;color:var(--sub);padding:50px 0;font-size:14px}
+</style>
+</head>
+<body>
+
+<!-- ============ 首页 ============ -->
+<div id="home">
+  <div class="hero"><div class="wrap">
+    <h1>IIQE 刷题神器</h1>
+    <p>香港保险中介人资格考试 · 卷一《保险原理及实务》+ 卷三《长期保险》</p>
+    <div>
+      <span class="badge">合格线 70 分</span>
+      <span class="badge">卷一 75 题 / 120 分钟</span>
+      <span class="badge">卷三 50 题 / 75 分钟</span>
+    </div>
+  </div></div>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><b id="stTotal">0</b><span>题库总量</span></div>
+      <div class="stat"><b id="stDone">0</b><span>已练习题</span></div>
+      <div class="stat"><b id="stAcc">—</b><span>练习正确率</span></div>
+      <div class="stat"><b id="stWrong">0</b><span>错题本</span></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card" onclick="startPractice(1,false)">
+        <div class="ic" style="background:#e8f0ff">📘</div>
+        <h3>卷一 · 保险原理及实务</h3>
+        <p>风险与保险、法律原则、保险原则、公司功能、行业结构、规管架构、职业道德，共 7 章。</p>
+        <div class="go">开始顺序刷题 →</div>
+      </div>
+      <div class="card" onclick="startPractice(3,false)">
+        <div class="ic" style="background:#e6f7f5">📗</div>
+        <h3>卷三 · 长期保险</h3>
+        <p>人寿保险简介、寿险及年金种类、附约产品、保单条款阐释、寿险程序，共 5 章。</p>
+        <div class="go">开始顺序刷题 →</div>
+      </div>
+      <div class="card" onclick="startPractice(1,true)">
+        <div class="ic" style="background:#fdf1e3">🔀</div>
+        <h3>随机刷题</h3>
+        <p>打乱顺序抽题作答，模拟真实考试的不确定感，检验真实掌握程度。</p>
+        <div class="go">随机抽题 →</div>
+      </div>
+      <div class="card" onclick="startMock()">
+        <div class="ic" style="background:#f0e9fd">⏱️</div>
+        <h3>模拟考试</h3>
+        <p>按真实考试题量与时间计时作答，交卷后判分并给出逐题解析，体验真实考场节奏。</p>
+        <div class="go">进入模拟考 →</div>
+      </div>
+    </div>
+
+    <div class="sec-title">章节专项练习</div>
+    <div class="chaprow" onclick="pickChapter(1)"><span>📘 卷一 · 选择章节</span><span class="pc">7 章 →</span></div>
+    <div class="chaprow" onclick="pickChapter(3)"><span>📗 卷三 · 选择章节</span><span class="pc">5 章 →</span></div>
+
+    <div class="sec-title">错题本</div>
+    <div class="chaprow" onclick="startWrong()"><span>❌ 我的错题（答错自动收录）</span><span class="pc" id="wrongCnt">0 题 →</span></div>
+
+    <div class="note">
+      <b>说明</b>：本题库为依据 VTC / 高峰进修学院（PEAK）官方考试范围编写的原创练习题，非官方真题（官方不公布真题）。所有题目均为简体中文，正式考试为中英对照。保险规管细节（费用、时限、守则条文）可能更新，请以官方考试手册及保监局最新公布为准。答题记录仅保存在本机浏览器。
+    </div>
+  </div>
+</div>
+
+<!-- ============ 章节选择 ============ -->
+<div id="chapters" class="hidden"><div class="wrap">
+  <div class="topbar" style="margin:0 -16px;padding-left:16px;padding-right:16px"><div style="display:flex;align-items:center;gap:12px;width:100%">
+    <button class="btn" onclick="showHome()">← 返回</button>
+    <b id="chapTitle"></b>
+  </div></div>
+  <div id="chapList" style="margin-top:18px"></div>
+</div></div>
+
+<!-- ============ 做题 ============ -->
+<div id="quiz" class="hidden">
+  <div class="topbar"><div class="wrap">
+    <button class="btn" onclick="exitQuiz()">← 退出</button>
+    <div class="pbar"><i id="pfill" style="width:0%"></i></div>
+    <span class="timer hidden" id="timer"></span>
+  </div></div>
+  <div class="wrap">
+    <div class="qcard">
+      <span class="chip" id="qchip"></span>
+      <div class="qtext" id="qtext"></div>
+      <div id="opts"></div>
+      <div class="exp" id="exp"></div>
+      <div class="qnav">
+        <button class="btn" id="btnPrev" onclick="prevQ()">← 上一题</button>
+        <button class="btn primary" id="btnNext" onclick="nextQ()">下一题 →</button>
+      </div>
+      <div class="dotgrid" id="dots"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 成绩 / 结果 ============ -->
+<div id="result" class="hidden"><div class="wrap">
+  <div class="result">
+    <div style="font-size:14px;color:var(--sub)" id="rSub"></div>
+    <div class="score" id="rScore"></div>
+    <div id="rVerdict" style="font-size:17px;font-weight:700;margin-bottom:6px"></div>
+    <div style="font-size:13px;color:var(--sub)" id="rMeta"></div>
+    <div style="margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn big" onclick="reviewWrong()" id="btnRevWrong">重做错题</button>
+      <button class="btn big primary" onclick="showHome()">返回首页</button>
+    </div>
+  </div>
+  <div id="revList"></div>
+</div></div>
+
+<script src="questions.js"></script>
+<script>
+/* ---------------- 状态 ---------------- */
+const QB = window.QBANK;
+const LS = { done:'iiqe_done', rec:'iiqe_rec', wrong:'iiqe_wrong' };
+const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let doneSet = new Set(load(LS.done,[]));      // 练习模式已作答题目标记
+let recMap  = load(LS.rec,{});                // id -> {sel, ok}
+let wrongSet= new Set(load(LS.wrong,[]));     // 错题 id
+let S = null;                                  // 当前会话
+let timerId=null;
+
+const chCount = p => { const m={}; QB.filter(q=>q.p===p).forEach(q=>m[q.ch]=(m[q.ch]||0)+1); return m; };
+const chsOf = p => [...new Set(QB.filter(q=>q.p===p).map(q=>q.ch))];
+
+function refreshStats(){
+  document.getElementById('stTotal').textContent = QB.length;
+  const doneN = Object.keys(recMap).length;
+  const okN = Object.values(recMap).filter(r=>r.ok).length;
+  document.getElementById('stDone').textContent = doneN;
+  document.getElementById('stAcc').textContent = doneN? Math.round(okN/doneN*100)+'%' : '—';
+  document.getElementById('stWrong').textContent = wrongSet.size;
+  document.getElementById('wrongCnt').textContent = wrongSet.size+' 题';
+}
+
+/* ---------------- 视图切换 ---------------- */
+const views=['home','chapters','quiz','result'];
+function show(id){ views.forEach(v=>document.getElementById(v).classList.toggle('hidden',v!==id)); window.scrollTo(0,0); }
+function showHome(){ stopTimer(); S=null; refreshStats(); show('home'); }
+
+/* ---------------- 章节选择 ---------------- */
+function pickChapter(p){
+  document.getElementById('chapTitle').textContent = p===1?'卷一 · 选择章节':'卷三 · 选择章节';
+  const cnt = chCount(p), list=document.getElementById('chapList'); list.innerHTML='';
+  chsOf(p).forEach(ch=>{
+    const n=cnt[ch]||0;
+    const d=document.createElement('div'); d.className='chaprow';
+    d.innerHTML=`<span>▸ ${ch}</span><span class="pc">${n} 题 →</span>`;
+    d.onclick=()=>startPractice(p,false,ch);
+    list.appendChild(d);
+  });
+  show('chapters');
+}
+
+/* ---------------- 练习模式 ---------------- */
+function startPractice(p, shuffle, chapter){
+  let qs = chapter ? QB.filter(q=>q.p===p&&q.ch===chapter) : QB.filter(q=>q.p===p);
+  if(shuffle) qs=[...qs].sort(()=>Math.random()-.5);
+  S={mode:'practice',qs,idx:0};
+  show('quiz'); renderQ(); stopTimer(); document.getElementById('timer').classList.add('hidden');
+}
+function startWrong(){
+  const qs=QB.filter(q=>wrongSet.has(keyOf(q)));
+  if(!qs.length){alert('错题本是空的，先去刷题吧！');return;}
+  S={mode:'practice',qs,idx:0};
+  show('quiz'); renderQ(); stopTimer(); document.getElementById('timer').classList.add('hidden');
+}
+const keyOf=q=>q.p+'-'+q.ch+'-'+QB.indexOf(q);
+
+/* ---------------- 模拟考试 ---------------- */
+function startMock(){
+  const p = confirm('选择试卷：\n「确定」= 卷一《保险原理及实务》（120 分钟 / 75 题）\n「取消」= 卷三《长期保险》（75 分钟 / 50 题）') ? 1:3;
+  const n = p===1 ? 75 : 50;   // 与真实考试题量一致，从题库随机抽题
+  const qs=[...QB.filter(q=>q.p===p)].sort(()=>Math.random()-.5).slice(0,n);
+  const secs = p===1 ? 120*60 : 75*60;
+  S={mode:'mock',qs,idx:0,answers:{},left:secs,total:secs,p};
+  show('quiz'); renderQ();
+  const t=document.getElementById('timer'); t.classList.remove('hidden');
+  stopTimer();
+  timerId=setInterval(()=>{
+    S.left--;
+    const m=String(Math.floor(S.left/60)).padStart(2,'0'), s=String(S.left%60).padStart(2,'0');
+    t.textContent=m+':'+s;
+    if(S.left<=0){ stopTimer(); alert('时间到！系统已自动交卷。'); submitMock(); }
+  },1000);
+  t.textContent=Math.floor(secs/60)+':00';
+}
+function stopTimer(){ if(timerId){clearInterval(timerId);timerId=null;} }
+
+/* ---------------- 渲染题目 ---------------- */
+function renderQ(){
+  const {qs,idx}=S, q=qs[idx];
+  document.getElementById('pfill').style.width=((idx+1)/qs.length*100)+'%';
+  const chip=document.getElementById('qchip');
+  chip.textContent=(q.p===1?'卷一':'卷三')+' · '+q.ch;
+  if(S.mode==='mock'){ chip.textContent+=' ｜ 模拟考'; chip.classList.add('warn'); } else chip.classList.remove('warn');
+  document.getElementById('qtext').textContent=(idx+1)+'. '+q.q;
+  const box=document.getElementById('opts'); box.innerHTML='';
+  const rec = S.mode==='mock' ? S.answers[keyOf(q)] : recMap[keyOf(q)];
+  q.o.forEach((t,i)=>{
+    const d=document.createElement('div'); d.className='opt';
+    d.innerHTML=`<span class="k">${'ABCD'[i]}</span><span>${t}</span>`;
+    if(rec!==undefined){
+      d.classList.add('locked');
+      if(S.mode==='mock'){ if(i===rec) d.classList.add('sel'); }
+      else{
+        if(i===q.a) d.classList.add('correct');
+        else if(i===rec.sel) d.classList.add('wrong');
+        if(i===rec.sel&&i===q.a) d.classList.add('correct');
+      }
+    }else{
+      d.onclick=()=>pick(i);
+    }
+    box.appendChild(d);
+  });
+  // 解析
+  const exp=document.getElementById('exp');
+  if(S.mode==='practice'&&rec!==undefined){
+    exp.className='exp show '+(rec.ok?'good':'bad');
+    exp.innerHTML=`<b>${rec.ok?'✓ 回答正确':'✗ 回答错误'}　<span class="ans">正确答案：${'ABCD'[q.a]}</span>（你的答案：${'ABCD'[rec.sel]}）</b>${q.e}`;
+  }else if(S.mode==='mock'&&S.answers[keyOf(q)]!==undefined){
+    exp.className='exp show good'; exp.innerHTML=`<b>已作答：${'ABCD'[S.answers[keyOf(q)]]}（模拟考交卷后显示对错）</b>`;
+  }else{ exp.className='exp'; exp.innerHTML=''; }
+  // 导航
+  document.getElementById('btnPrev').style.visibility=idx===0?'hidden':'visible';
+  const nx=document.getElementById('btnNext');
+  if(idx===qs.length-1){
+    nx.textContent = S.mode==='mock' ? '交卷判分 ✓' : '完成 ✓';
+    nx.onclick = S.mode==='mock' ? confirmSubmit : finishPractice;
+  }else{ nx.textContent='下一题 →'; nx.onclick=nextQ; }
+  // 题点
+  const dg=document.getElementById('dots'); dg.innerHTML='';
+  qs.forEach((_,i)=>{
+    const b=document.createElement('button'); b.className='dot';
+    b.textContent=i+1;
+    const k=keyOf(qs[i]);
+    const done = S.mode==='mock' ? S.answers[k]!==undefined : recMap[k]!==undefined;
+    if(done) b.classList.add('done'); if(i===idx) b.classList.add('cur');
+    b.onclick=()=>{S.idx=i;renderQ();};
+    dg.appendChild(b);
+  });
+}
+function pick(i){
+  const q=S.qs[S.idx], k=keyOf(q);
+  if(S.mode==='mock'){
+    S.answers[k]=i;
+    if(S.idx<S.qs.length-1){S.idx++;renderQ();} else renderQ();
+  }else{
+    const ok=i===q.a;
+    recMap[k]={sel:i,ok};
+    if(ok) wrongSet.delete(k); else wrongSet.add(k);
+    save(LS.rec,recMap); save(LS.wrong,[...wrongSet]);
+    doneSet.add(k); save(LS.done,[...doneSet]);
+    renderQ();
+  }
+}
+function nextQ(){ if(S.idx<S.qs.length-1){S.idx++;renderQ();} }
+function prevQ(){ if(S.idx>0){S.idx--;renderQ();} }
+function exitQuiz(){
+  if(S.mode==='mock' && !confirm('模拟考尚未交卷，退出将不保存本次成绩，确定退出？')) return;
+  stopTimer(); showHome();
+}
+
+/* ---------------- 练习完成 ---------------- */
+function finishPractice(){
+  const n=S.qs.length, key=S.qs.map(keyOf);
+  let ok=0; key.forEach(k=>{ if(recMap[k]&&recMap[k].ok) ok++; });
+  const pct=Math.round(ok/n*100);
+  showResult({title:'练习完成',pct,ok,n,wrong:key.filter(k=>!recMap[k]||!recMap[k].ok).map(k=>QB.find(q=>keyOf(q)===k)),mock:false});
+}
+function confirmSubmit(){
+  const un=S.qs.length-Object.keys(S.answers).length;
+  if(!confirm(`确定交卷？还有 ${un} 题未作答。`)) return;
+  submitMock();
+}
+function submitMock(){
+  stopTimer();
+  let ok=0; const wrong=[];
+  S.qs.forEach(q=>{ const k=keyOf(q), sel=S.answers[k];
+    if(sel===q.a) ok++; else wrong.push({q,sel});
+  });
+  const n=S.qs.length, pct=Math.round(ok/n*100), pass=pct>=70;
+  // 模拟考的错题并入错题本
+  wrong.forEach(w=>wrongSet.add(keyOf(w.q))); save(LS.wrong,[...wrongSet]);
+  wrong.forEach(w=>{ const k=keyOf(w.q); recMap[k]={sel:w.sel??-1,ok:false}; }); save(LS.rec,recMap);
+  showResult({title:S.p===1?'卷一 模拟考成绩':'卷三 模拟考成绩',pct,ok,n,wrong:wrong.map(w=>w.q),selMap:S.answers,mock:true,pass});
+}
+function showResult(r){
+  show('result');
+  document.getElementById('rSub').textContent=r.title;
+  const sc=document.getElementById('rScore');
+  sc.textContent=r.pct+' 分';
+  sc.className='score '+(r.mock?(r.pass?'pass':'fail'):'');
+  document.getElementById('rVerdict').textContent = r.mock ? (r.pass?'🎉 及格！达到 70 分合格线':'😔 未达 70 分合格线，再接再厉') : `答对 ${r.ok} / ${r.n} 题`;
+  document.getElementById('rMeta').textContent = r.mock? `答对 ${r.ok} 题 / 共 ${r.n} 题` : '';
+  const btn=document.getElementById('btnRevWrong');
+  btn.style.display = r.wrong.length? 'inline-block':'none';
+  document.getElementById('revList').innerHTML='';
+  if(r.wrong.length){
+    const h=document.createElement('div'); h.className='sec-title'; h.style.marginTop='24px';
+    h.textContent=`本次错题回顾（${r.wrong.length} 题）`;
+    document.getElementById('revList').appendChild(h);
+    r.wrong.forEach(q=>{
+      const k=keyOf(q), my=r.selMap? r.selMap[k] : (recMap[k]?recMap[k].sel:-1);
+      const d=document.createElement('div'); d.className='revitem';
+      d.innerHTML=`<div class="rq">${q.q}</div>
+        <div>你的答案：<span class="my">${my>=0?'ABCD'[my]:'未作答'}</span>　正确答案：<span class="rt">${'ABCD'[q.a]} · ${q.o[q.a]}</span></div>
+        <div class="re">解析：${q.e}</div>`;
+      document.getElementById('revList').appendChild(d);
+    });
+  }
+  refreshStats();
+}
+function reviewWrong(){
+  const qs=QB.filter(q=>wrongSet.has(keyOf(q)));
+  if(!qs.length){alert('错题本已清空，太棒了！');return;}
+  S={mode:'practice',qs,idx:0}; show('quiz'); renderQ();
+}
+
+refreshStats();
+</script>
+</body>
+</html>

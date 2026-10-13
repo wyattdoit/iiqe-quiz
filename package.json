@@ -1,0 +1,10 @@
+{
+  "name": "iiqe-quiz",
+  "version": "1.0.0",
+  "private": true,
+  "description": "IIQE 卷一 & 卷三刷题练习应用",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "node build.js"
+  }
+}
