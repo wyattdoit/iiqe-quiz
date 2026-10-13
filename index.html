@@ -33,7 +33,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;line-height:1.6}
-.wrap{max-width:880px;margin:0 auto;padding:0 16px 108px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px 96px}
 button{font-family:inherit}
 :focus-visible{outline:2px solid var(--brand2);outline-offset:2px;border-radius:6px}
 
@@ -144,7 +144,18 @@ button{font-family:inherit}
 .lang{display:inline-flex;gap:2px;background:#e9edf4;border:1px solid var(--line2);border-radius:999px;padding:3px}
 .lang button{border:0;background:transparent;border-radius:999px;padding:3px 12px;font-size:12.5px;font-weight:700;color:var(--sub);cursor:pointer;line-height:1.6}
 .lang button.on{background:var(--brand);color:#fff}
-.lang-fixed{position:fixed;top:14px;right:16px;z-index:60;box-shadow:0 6px 20px rgba(20,40,80,.16)}
+/* ---------- 顶部站点导航 ---------- */
+.sitehead{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.sitehead-inner{max-width:1080px;margin:0 auto;padding:0 16px;height:58px;display:flex;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:9px;cursor:pointer;flex:0 0 auto}
+.brand-seal{width:32px;height:32px;border-radius:9px;background:linear-gradient(140deg,var(--brand),var(--brand2));color:#fff;font-family:var(--serif);font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(31,63,168,.28)}
+.brand-name{font-weight:800;font-size:15px;letter-spacing:.5px;color:var(--ink)}
+.head-right{display:flex;align-items:center;gap:16px;margin-left:auto}
+.headnav{display:flex;gap:2px}
+.hnav{border:0;background:none;padding:8px 14px;border-radius:9px;font-size:14px;font-weight:650;color:var(--sub);cursor:pointer;font-family:inherit}
+.hnav:hover{color:var(--brand);background:var(--brand-soft)}
+.hnav.on{color:var(--brand);background:var(--brand-soft);font-weight:800}
+@media(max-width:767px){.headnav{display:none}}
 .qtext{font-size:17px;line-height:1.75;font-weight:650;margin-bottom:20px}
 .opt{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;font-size:15px;line-height:1.6;transition:all .12s}
 .opt:hover{border-color:var(--brand2);background:#f6f8ff}
@@ -318,13 +329,34 @@ input[type=date]:focus{outline:none;border-color:var(--brand2)}
   .chgrid{grid-template-columns:1fr}
   .glinks{grid-template-columns:1fr}
 }
+@media(min-width:768px){
+  .tabbar{display:none}
+  .wrap{padding-bottom:72px}
+  .footer{padding-bottom:calc(26px + env(safe-area-inset-bottom))}
+}
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
 }
 </style>
 </head>
 <body>
-<div id="langFixed" class="lang lang-fixed"><button type="button" data-lang="cn" onclick="setLang('cn')">简</button><button type="button" data-lang="tw" onclick="setLang('tw')">繁</button></div>
+<header id="siteHeader" class="sitehead">
+  <div class="sitehead-inner">
+    <div class="brand" onclick="go('home')">
+      <span class="brand-seal">印</span>
+      <span class="brand-name" data-i18n data-tw="IIQE 刷題神器">IIQE 刷题神器</span>
+    </div>
+    <div class="head-right">
+      <nav class="headnav">
+        <button type="button" class="hnav on" data-tab="home" data-i18n data-tw="首頁" onclick="go('home')">首页</button>
+        <button type="button" class="hnav" data-tab="practice" data-i18n data-tw="刷題" onclick="go('practice')">刷题</button>
+        <button type="button" class="hnav" data-tab="review" data-i18n data-tw="複習" onclick="go('review')">复习</button>
+        <button type="button" class="hnav" data-tab="guide" data-i18n data-tw="攻略" onclick="go('guide')">攻略</button>
+      </nav>
+      <div class="lang"><button type="button" data-lang="cn" onclick="setLang('cn')">简</button><button type="button" data-lang="tw" onclick="setLang('tw')">繁</button></div>
+    </div>
+  </div>
+</header>
 
 <!-- ============ 首页 ============ -->
 <div id="home">
@@ -493,10 +525,6 @@ input[type=date]:focus{outline:none;border-color:var(--brand2)}
 
 <!-- ============ 考试攻略 ============ -->
 <div id="guide" class="hidden">
-  <div class="topbar"><div class="wrap">
-    <button class="btn" onclick="showHome()">← 返回首页</button>
-    <b data-i18n data-tw="IIQE 考試介紹 &amp;amp; 備考攻略">IIQE 考试介绍 &amp; 备考攻略</b>
-  </div></div>
   <div class="wrap">
     <article class="guide">
       <div class="guide-hero">
@@ -1028,13 +1056,10 @@ const views=['home','practice','review','guide','quiz','result'];
 function show(id){
   VIEW=id;
   views.forEach(v=>{ const el=document.getElementById(v); if(el) el.classList.toggle('hidden', v!==id); });
-  const tb=document.getElementById('tabbar');
-  if(tb){
-    const full = id==='quiz'||id==='result';
-    tb.classList.toggle('hidden', full);
-    if(!full) tb.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===id));
-  }
-  const f=document.getElementById('langFixed'); if(f) f.classList.toggle('hidden', id==='quiz');
+  const full = id==='quiz'||id==='result';
+  const tb=document.getElementById('tabbar'); if(tb) tb.classList.toggle('hidden', full);
+  const h=document.getElementById('siteHeader'); if(h) h.classList.toggle('hidden', full);
+  if(!full) document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('on', b.dataset.tab===id));
   window.scrollTo(0,0);
 }
 function go(tab){ if(tab==='home'){ showHome(); return; } if(tab==='guide'){ showGuide(); return; } stopTimer(); S=null; show(tab); }
