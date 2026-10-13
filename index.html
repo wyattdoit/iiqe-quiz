@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>IIQE 刷题神器 · 卷一 & 卷三</title>
 <style>
 :root{
@@ -97,6 +97,69 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .modal .foot{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
 .btn.danger{border-color:#f3c1c1;color:var(--bad);font-weight:600}
 .btn.danger:hover{background:var(--badbg);border-color:var(--bad);color:var(--bad)}
+/* ============ 响应式增强 / 页脚 / 考试攻略 ============ */
+.hero .author{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;opacity:.92;margin-top:12px}
+.footer{background:var(--card);border-top:1px solid var(--line);text-align:center;padding:26px 16px calc(26px + env(safe-area-inset-bottom));color:var(--sub);font-size:12.5px;line-height:1.9}
+.footer b{color:var(--ink)}
+.footer .foot-note{color:#9aa4b5;font-size:11.5px;margin-top:4px;line-height:1.7}
+/* 攻略入口横幅 */
+.guide-banner{display:flex;gap:16px;align-items:center;background:linear-gradient(135deg,#eef4ff,#e6f7f5);border:1px solid #d6e4f7;border-radius:16px;padding:18px 20px;margin-top:20px;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.guide-banner:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(20,40,80,.10)}
+.guide-banner .ic{flex:0 0 48px;height:48px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 12px rgba(20,40,80,.08)}
+.guide-banner .bd{flex:1}
+.guide-banner h3{font-size:16px;margin-bottom:4px}
+.guide-banner p{font-size:12.5px;color:var(--sub);line-height:1.6}
+.guide-banner .go{color:var(--brand);font-weight:700;font-size:13.5px;white-space:nowrap}
+/* 攻略正文 */
+.guide{max-width:760px;margin:0 auto}
+.guide-hero{background:linear-gradient(135deg,#1558b0,#1a6ee0 55%,#0ea5a4);color:#fff;border-radius:18px;padding:24px;margin-top:18px;box-shadow:0 8px 24px rgba(21,88,176,.22)}
+.guide-hero h2{font-size:20px;margin-bottom:8px;line-height:1.4}
+.guide-hero p{font-size:13px;opacity:.92;line-height:1.7}
+.guide section{background:var(--card);border-radius:16px;padding:22px;margin-top:16px;box-shadow:0 4px 16px rgba(20,40,80,.06)}
+.guide section>h3{font-size:16px;margin-bottom:12px;color:var(--ink);display:flex;align-items:center;gap:8px}
+.guide section>h3::before{content:"";flex:0 0 4px;width:4px;height:16px;background:var(--brand);border-radius:2px}
+.guide p{font-size:14px;line-height:1.85;color:#3a4557;margin-bottom:10px}
+.guide p:last-child{margin-bottom:0}
+.guide ul,.guide ol{margin:0 0 10px 20px;font-size:14px;line-height:1.9;color:#3a4557}
+.guide li{margin-bottom:4px}
+.guide b{color:var(--ink)}
+.gtblwrap{overflow-x:auto;margin-top:4px}
+.gtbl{width:100%;border-collapse:collapse;font-size:13.5px;min-width:440px}
+.gtbl th,.gtbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+.gtbl th{background:#f4f7fb;font-weight:700;color:var(--sub);font-size:12.5px}
+.gtbl td:first-child{font-weight:700;color:var(--brand)}
+.gtip{font-size:12.5px;color:var(--sub);background:#f6f8fb;border-radius:10px;padding:10px 12px;margin-top:12px;line-height:1.7}
+.gfacts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.gfacts>div{background:#f6f8fb;border:1px solid var(--line);border-radius:12px;text-align:center;padding:14px 8px}
+.gfacts b{display:block;font-size:22px;color:var(--brand)}
+.gfacts span{font-size:12px;color:var(--sub)}
+.gstep{background:#fafbfd;border-left:3px solid var(--brand2);border-radius:0 12px 12px 0;padding:12px 16px;margin-bottom:10px}
+.gstep h4{font-size:14px;margin-bottom:4px}
+.gstep p{font-size:13px;color:#3a4557;margin:0;line-height:1.8}
+.gtime{background:#fef3e2;color:var(--gold);border-radius:12px;padding:12px 16px;font-size:13px;margin-top:14px;line-height:1.7}
+.gfaq h4{font-size:14px;margin:14px 0 4px;color:var(--ink)}
+.gfaq h4::before{content:"Q · ";color:var(--brand);font-weight:700}
+.gfaq p{font-size:13.5px;color:#3a4557;margin:0 0 4px}
+.gdisclaimer{background:var(--badbg);border:1px solid #f3c1c1;border-radius:14px;padding:16px;font-size:13px;line-height:1.8;color:#7c2d2d;margin-top:16px}
+@media(max-width:640px){
+  .hero{padding:26px 0 22px}
+  .hero h1{font-size:21px}
+  .guide-banner{padding:16px;gap:12px}
+  .gfacts{gap:8px}
+  .gfacts b{font-size:18px}
+  .guide{padding-bottom:0}
+  .guide section{padding:18px}
+  .qcard{padding:18px}
+  .opt{padding:14px;font-size:14.5px}
+  .opt .k{flex:0 0 24px;height:24px}
+  .topbar .wrap{gap:8px}
+  .topbar .btn{padding:8px 12px}
+  .timer{font-size:14px}
+}
+@media(max-width:400px){
+  .gfacts span{font-size:11px}
+  .guide-hero h2{font-size:18px}
+}
 </style>
 </head>
 <body>
@@ -111,6 +174,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <span class="badge">卷一 75 题 / 120 分钟</span>
       <span class="badge">卷三 50 题 / 75 分钟</span>
     </div>
+    <div class="author">✍️ Wyatt 编写</div>
   </div></div>
   <div class="wrap">
     <div class="stats">
@@ -147,6 +211,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </div>
     </div>
 
+    <div class="guide-banner" onclick="showGuide()">
+      <div class="ic">📖</div>
+      <div class="bd">
+        <h3>IIQE 考试介绍 & 备考攻略</h3>
+        <p>什么是 IIQE？卷一 / 卷三考什么、怎么报名、如何高效备考 —— 一篇看懂。</p>
+      </div>
+      <div class="go">查看攻略 →</div>
+    </div>
+
     <div class="sec-title">章节专项练习</div>
     <div class="chaprow" onclick="pickChapter(1)"><span>📘 卷一 · 选择章节</span><span class="pc">7 章 →</span></div>
     <div class="chaprow" onclick="pickChapter(3)"><span>📗 卷三 · 选择章节</span><span class="pc">5 章 →</span></div>
@@ -161,6 +234,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       <b>说明</b>：本题库为依据 VTC / 高峰进修学院（PEAK）官方考试范围编写的原创练习题，非官方真题（官方不公布真题）。所有题目均为简体中文，正式考试为中英对照。保险规管细节（费用、时限、守则条文）可能更新，请以官方考试手册及保监局最新公布为准。答题记录仅保存在本机浏览器。
     </div>
   </div>
+
+  <footer class="footer">
+    <div><b>Wyatt</b> 编写</div>
+    <div class="foot-note">IIQE 刷题辅助工具 · 题库为依据官方考试范围编写的原创练习题，考试详情请以 PEAK 与保监局公布为准</div>
+  </footer>
 </div>
 
 <!-- ============ 章节选择 ============ -->
@@ -208,6 +286,119 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   </div>
   <div id="revList"></div>
 </div></div>
+
+<!-- ============ 考试攻略 ============ -->
+<div id="guide" class="hidden">
+  <div class="topbar"><div class="wrap">
+    <button class="btn" onclick="showHome()">← 返回首页</button>
+    <b>IIQE 考试介绍 & 备考攻略</b>
+  </div></div>
+  <div class="wrap">
+    <article class="guide">
+      <div class="guide-hero">
+        <h2>📖 香港保险中介人资格考试（IIQE）</h2>
+        <p>Insurance Intermediaries Qualifying Examination · 一文看懂考试内容、各卷科目、报名方式与高效备考。</p>
+      </div>
+
+      <section>
+        <h3>01 · IIQE 是什么？</h3>
+        <p>香港保险中介人资格考试（IIQE）是香港保险业的中介人资格考核，由职业训练局（VTC）辖下的高峰进修学院（PEAK）举办，考试成绩获保险业监管局（IA）认可，是成为持牌保险代理人 / 保险经纪的重要条件。</p>
+        <p>简单来说：想在香港合法从事保险销售或中介业务，就要先通过相应试卷、取得牌照。</p>
+      </section>
+
+      <section>
+        <h3>02 · 考试科目总览</h3>
+        <p>IIQE 按业务线分为多个试卷，从业者须按其业务范围通过相应试卷：</p>
+        <div class="gtblwrap">
+          <table class="gtbl">
+            <thead><tr><th>试卷</th><th>名称</th><th>适用对象</th></tr></thead>
+            <tbody>
+              <tr><td>卷一</td><td>保险原理及实务</td><td>所有保险中介（必修）</td></tr>
+              <tr><td>卷二</td><td>一般保险</td><td>一般（财产）保险中介</td></tr>
+              <tr><td>卷三</td><td>长期保险</td><td>长期（人寿）保险中介</td></tr>
+              <tr><td>卷五</td><td>投资相连长期保险</td><td>投连险中介</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="gtip">本 App 目前覆盖 <b>卷一</b> 与 <b>卷三</b> 两卷，题库共 500 题（卷一 250 + 卷三 250），依据官方考试范围编写。另有旅游保险等专项考试，具体以官方公布为准。</p>
+      </section>
+
+      <section>
+        <h3>03 · 卷一《保险原理及实务》</h3>
+        <div class="gfacts">
+          <div><b>75</b><span>题目数</span></div>
+          <div><b>120</b><span>分钟</span></div>
+          <div><b>70%</b><span>及格线</span></div>
+        </div>
+        <p class="gtip">及格线 70%，相当于约答对 53 题。</p>
+        <p>全卷共 7 章：风险与保险、保险之法律原则、保险原则（可保利益 / 最高诚信 / 近因 / 赔偿）、保险公司之运作与功能、保险业之结构、香港保险业之规管架构、职业道德与操守。</p>
+        <p>卷一是所有保险中介的<b>必修卷</b>，无论从事人寿还是财产保险，都要先过这一关。</p>
+      </section>
+
+      <section>
+        <h3>04 · 卷三《长期保险》</h3>
+        <div class="gfacts">
+          <div><b>50</b><span>题目数</span></div>
+          <div><b>75</b><span>分钟</span></div>
+          <div><b>70%</b><span>及格线</span></div>
+        </div>
+        <p class="gtip">及格线 70%，相当于约答对 35 题。</p>
+        <p>全卷共 5 章：人寿保险简介、寿险及年金种类、附约产品、保单条款阐释、寿险程序。</p>
+        <p>卷三适合计划从事<b>人寿 / 长期保险</b>（如储蓄、危疾、年金等产品线）的从业者。</p>
+      </section>
+
+      <section>
+        <h3>05 · 考试形式</h3>
+        <ul>
+          <li>全卷为<b>多项选择题</b>（四选一）。</li>
+          <li><b>中英对照</b>：题目与选项同时提供中文及英文。</li>
+          <li>采用<b>电脑化考试（CBT）</b>，在指定考场进行。</li>
+          <li>全卷一个总分，<b>70% 或以上即及格</b>，不设分题及格线。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>06 · 报名流程</h3>
+        <ol>
+          <li>前往 <b>PEAK 官网</b> 注册 / 登录考试报名系统。</li>
+          <li>选择报考试卷（如卷一、卷三）及考试场次 / 日期。</li>
+          <li>缴纳考试费用并确认报名。</li>
+          <li>按指定时间、地点到考场应试（带备有效身份证明文件）。</li>
+          <li>考试后于 PEAK 系统查询成绩。</li>
+        </ol>
+        <p class="gtip">考试费用、场次与地点会随官方安排调整，请以 PEAK 及保监局最新公布为准。</p>
+      </section>
+
+      <section>
+        <h3>07 · 备考攻略：如何高效通过？</h3>
+        <div class="gstep"><h4>第一步 · 建立知识框架</h4><p>通读官方考试范围 / 教材，重点掌握<b>保险原则</b>（可保利益、最高诚信、近因、赔偿）与契约法基础，这是卷一的重头戏。</p></div>
+        <div class="gstep"><h4>第二步 · 分章节刷题</h4><p>用本 App 的「章节专项练习」逐章突破，每章做完后针对错题反复巩固，形成长期记忆。</p></div>
+        <div class="gstep"><h4>第三步 · 随机 & 模拟检验</h4><p>用「随机刷题」打乱顺序、避免死记；临考前用「模拟考试」按真实题量与时间计时，检验节奏与得分。</p></div>
+        <div class="gstep"><h4>第四步 · 死磕错题本</h4><p>答错的题会自动进入「错题本」，考前把错题清零，往往是提分最快的环节。</p></div>
+        <div class="gtime">⏱️ 时间管理参考：卷一 120 分钟 75 题 ≈ 每题 1.6 分钟；卷三 75 分钟 50 题 ≈ 每题 1.5 分钟。</div>
+      </section>
+
+      <section>
+        <h3>08 · 常见问题（FAQ）</h3>
+        <div class="gfaq">
+          <h4>考试用中文还是英文？</h4><p>题目及选项均为中英对照，可按个人习惯作答。</p>
+          <h4>可以一次报考多份试卷吗？</h4><p>各试卷独立报考，可依发牌要求与个人安排分次或依次报考。</p>
+          <h4>考试不通过可以重考吗？</h4><p>可以，重新报名参加下一次考试即可，重考规则以官方为准。</p>
+          <h4>成绩何时公布？</h4><p>电脑化考试通常于考试后一段时间内在报名系统公布，具体以 PEAK 通知为准。</p>
+        </div>
+      </section>
+
+      <div class="gdisclaimer">
+        <b>⚠️ 免责声明</b>：本页面为备考辅助与流程说明，考试科目、题量、时限、费用与规管条文可能更新，请以<b>高峰进修学院（PEAK）</b>及<b>保险业监管局（IA）</b>最新公布为准。本 App 题库为依据官方考试范围编写的原创练习题，非官方真题。
+      </div>
+    </article>
+  </div>
+
+  <footer class="footer">
+    <div><b>Wyatt</b> 编写</div>
+    <div class="foot-note">IIQE 刷题辅助工具 · 考试详情请以 PEAK 与保监局公布为准</div>
+  </footer>
+</div>
 
 <!-- ============ 模拟考选卷 ============ -->
 <div id="mockModal" class="mask hidden" onclick="if(event.target===this)closeMock()">
@@ -267,9 +458,10 @@ function refreshStats(){
 }
 
 /* ---------------- 视图切换 ---------------- */
-const views=['home','chapters','quiz','result'];
+const views=['home','chapters','quiz','result','guide'];
 function show(id){ views.forEach(v=>document.getElementById(v).classList.toggle('hidden',v!==id)); window.scrollTo(0,0); }
-function showHome(){ stopTimer(); S=null; refreshStats(); show('home'); }
+function showHome(){ stopTimer(); S=null; refreshStats(); show('home'); if(location.hash) history.replaceState(null,'',location.pathname+location.search); }
+function showGuide(){ stopTimer(); S=null; show('guide'); if(location.hash!=='#guide') location.hash='guide'; }
 
 /* ---------------- 章节选择 ---------------- */
 function pickChapter(p){
@@ -461,7 +653,16 @@ function reviewWrong(){
   S={mode:'practice',qs,idx:0}; show('quiz'); renderQ();
 }
 
-refreshStats();
+function boot(){
+  if(location.hash==='#guide'){ show('guide'); }
+  else { refreshStats(); }
+}
+window.addEventListener('hashchange', ()=>{
+  if(location.hash==='#guide') show('guide');
+  else showHome();
+});
+
+boot();
 </script>
 </body>
 </html>
