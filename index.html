@@ -685,6 +685,12 @@ const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){re
 const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
 let recMap  = load(LS.rec, {});      // key -> {sel, ok}
 let wrongSet = new Set(load(LS.wrong, []));
+// 记录写入去抖：合并 rec + wrong 的存盘，避免每题一次整库序列化
+let progTimer = null;
+function saveProgress(){ if(progTimer) clearTimeout(progTimer); progTimer = setTimeout(flushProgress, 300); }
+function flushProgress(){ if(progTimer){ clearTimeout(progTimer); progTimer=null; } save(LS.rec, recMap); save(LS.wrong, [...wrongSet]); }
+window.addEventListener('beforeunload', flushProgress);
+window.addEventListener('pagehide', flushProgress);
 let S = null;                        // 当前会话
 let timerId = null;
 let lang = load(LS.lang, 'cn');
@@ -694,22 +700,35 @@ const T = (cn, tw) => (lang === 'tw' ? (tw || cn) : cn);
 const qq = q => (lang === 'tw' ? q.tw : q);
 document.querySelectorAll('[data-i18n]').forEach(el => { el.dataset.cn = el.innerHTML; });
 
-const keyOf = q => q.p+'-'+q.ch+'-'+QB.indexOf(q);
+// 题库预建索引：id 化每题 + 按卷/章节分组，把 keyOf 与统计从 O(n) 降到 O(1)
+const CH = {};
+const CHAPTERS = {};
+QB.forEach((q, i) => {
+  q._i = i;
+  (CH[q.p] = CH[q.p] || {});
+  (CH[q.p][q.ch] = CH[q.p][q.ch] || []).push(q);
+});
+for (const p in CH) CHAPTERS[p] = Object.keys(CH[p]);
+
+const keyOf = q => q.p+'-'+q.ch+'-'+q._i;
 const qOfKey = k => QB[+k.slice(k.lastIndexOf('-')+1)];
 const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
 const setText=(id,t)=>{const e=document.getElementById(id); if(e) e.textContent=t;};
+const HTML_ESC = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
+const esc = s => String(s).replace(/[&<>"']/g, c => HTML_ESC[c]);
 
-const chsOf = p => [...new Set(QB.filter(q=>q.p===p).map(q=>q.ch))];
-function chapterStat(p,ch){
-  const qs=QB.filter(q=>q.p===p&&q.ch===ch);
-  let done=0,ok=0; qs.forEach(q=>{const k=keyOf(q); if(recMap[k]){done++; if(recMap[k].ok)ok++;}});
-  return {n:qs.length, done, ok};
+const chsOf = p => CHAPTERS[p] || [];
+function chapterStat(p, ch){
+  const qs = (CH[p] && CH[p][ch]) || [];
+  let done=0, ok=0;
+  for (const q of qs){ const k=keyOf(q); if(recMap[k]){ done++; if(recMap[k].ok) ok++; } }
+  return { n: qs.length, done, ok };
 }
 
 /* ---------------- 首页统计 / 章节 / 继续上次 ---------------- */
 function setBankFacts(){
-  const orig=QB.filter(q=>!q.src).length, real=QB.filter(q=>q.src).length;
-  const p1=QB.filter(q=>q.p===1).length, p3=QB.filter(q=>q.p===3).length;
+  let orig=0, real=0, p1=0, p3=0;
+  for (const q of QB){ if(q.src) real++; else orig++; if(q.p===1) p1++; else if(q.p===3) p3++; }
   setText('nbOrig', orig); setText('nbReal', real);
   setText('gTotal', QB.length); setText('gP1', p1); setText('gP3', p3); setText('gOrig', orig); setText('gReal', real);
 }
@@ -736,10 +755,10 @@ function renderChapterGrid(p){
     const st=chapterStat(p,ch);
     const pct=st.done? Math.round(st.ok/st.done*100) : null;
     const w=st.n? Math.round(st.done/st.n*100) : 0;
-    const fq=QB.find(q=>q.p===p&&q.ch===ch);
+    const fq=(CH[p] && CH[p][ch]) ? CH[p][ch][0] : null;
     const chShow=(lang==='tw'&&fq)? fq.tw.ch : ch;
     const d=document.createElement('div'); d.className='chcard';
-    d.innerHTML=`<div class="chcard-top"><span class="chic">${String(i+1).padStart(2,'0')}</span><h4>${chShow}</h4></div>
+    d.innerHTML=`<div class="chcard-top"><span class="chic">${String(i+1).padStart(2,'0')}</span><h4>${esc(chShow)}</h4></div>
       <div class="chmeta"><span>${T('已做','已做')} <b>${st.done}</b> / ${st.n}</span><span class="${pct===null?'zer':'ok'}">${pct===null?T('未开始','未開始'):pct+'% '+T('正确','正確')}</span></div>
       <div class="bar"><i style="width:${w}%"></i></div>`;
     d.onclick=()=>startChapter(p,ch);
@@ -856,6 +875,7 @@ function stopTimer(){ if(timerId){clearInterval(timerId);timerId=null;} }
 function openReset(){ document.getElementById('resetModal').classList.remove('hidden'); }
 function closeReset(){ document.getElementById('resetModal').classList.add('hidden'); }
 function doReset(){
+  if(progTimer){ clearTimeout(progTimer); progTimer=null; }
   Object.values(LS).forEach(k=>localStorage.removeItem(k));
   recMap={}; wrongSet=new Set(); closeReset(); clearResume(); refreshStats();
 }
@@ -908,7 +928,7 @@ function renderQ(){
   if(S.mode!=='mock' && rec!==undefined){
     const r=recMap[keyOf(q)];
     exp.className='exp show '+(r.ok?'good':'bad');
-    exp.innerHTML=`<b>${r.ok?T('✓ 回答正确','✓ 回答正確'):T('✗ 回答错误','✗ 回答錯誤')}　<span class="ans">${T('正确答案：','正確答案：')}${'ABCD'[q.a]}</span>（${T('你的答案：','你的答案：')}${'ABCD'[r.sel]}）</b>${qL.e}`;
+    exp.innerHTML=`<b>${r.ok?T('✓ 回答正确','✓ 回答正確'):T('✗ 回答错误','✗ 回答錯誤')}　<span class="ans">${T('正确答案：','正確答案：')}${'ABCD'[q.a]}</span>（${T('你的答案：','你的答案：')}${'ABCD'[r.sel]}）</b>${esc(qL.e)}`;
   }else if(S.mode==='mock'&&S.answers[keyOf(q)]!==undefined){
     exp.className='exp show good'; exp.innerHTML=`<b>${T('已作答：','已作答：')}${'ABCD'[S.answers[keyOf(q)]]}${T('（模拟考交卷后显示对错）','（模擬考交卷後顯示對錯）')}</b>`;
   }else{ exp.className='exp'; exp.innerHTML=''; }
@@ -943,7 +963,7 @@ function pick(i){
     const ok=i===q.a;
     recMap[k]={sel:i,ok};
     if(ok) wrongSet.delete(k); else wrongSet.add(k);
-    save(LS.rec,recMap); save(LS.wrong,[...wrongSet]);
+    saveProgress();
     renderQ();
   }
 }
@@ -983,8 +1003,9 @@ function submitMock(){
     if(sel===q.a) ok++; else wrong.push({q,sel});
   });
   const n=S.keys.length, pct=Math.round(ok/n*100), pass=pct>=70;
-  wrong.forEach(w=>wrongSet.add(keyOf(w.q))); save(LS.wrong,[...wrongSet]);
-  wrong.forEach(w=>{ recMap[keyOf(w.q)]={sel:w.sel??-1,ok:false}; }); save(LS.rec,recMap);
+  wrong.forEach(w=>wrongSet.add(keyOf(w.q)));
+  wrong.forEach(w=>{ recMap[keyOf(w.q)]={sel:w.sel??-1,ok:false}; });
+  flushProgress();
   showResult({title:S.p===1?T('卷一 模拟考成绩','卷一 模擬考成績'):T('卷三 模拟考成绩','卷三 模擬考成績'),pct,ok,n,wrong:wrong.map(w=>w.q),selMap:S.answers,mock:true,pass});
 }
 function showResult(r){
@@ -1017,9 +1038,9 @@ function renderResult(r){
       const k=keyOf(q), my=r.selMap? r.selMap[k] : (recMap[k]?recMap[k].sel:-1);
       const qL=qq(q);
       const d=document.createElement('div'); d.className='revitem';
-      d.innerHTML=`<div class="rq">${qL.q}</div>
-        <div>${T('你的答案：','你的答案：')}<span class="my">${my>=0?'ABCD'[my]:'未作答'}</span>　${T('正确答案：','正確答案：')}<span class="rt">${'ABCD'[q.a]} · ${qL.o[q.a]}</span></div>
-        <div class="re">${T('解析：','解析：')}${qL.e}</div>`;
+      d.innerHTML=`<div class="rq">${esc(qL.q)}</div>
+        <div>${T('你的答案：','你的答案：')}<span class="my">${my>=0?'ABCD'[my]:'未作答'}</span>　${T('正确答案：','正確答案：')}<span class="rt">${'ABCD'[q.a]} · ${esc(qL.o[q.a])}</span></div>
+        <div class="re">${T('解析：','解析：')}${esc(qL.e)}</div>`;
       document.getElementById('revList').appendChild(d);
     });
   }
