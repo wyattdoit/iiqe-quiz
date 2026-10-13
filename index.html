@@ -46,6 +46,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .qcard{background:var(--card);border-radius:16px;padding:24px;margin-top:18px;box-shadow:0 4px 16px rgba(20,40,80,.07)}
 .chip{display:inline-block;font-size:12px;padding:3px 12px;border-radius:999px;background:#eef4ff;color:var(--brand);font-weight:600;margin-bottom:12px}
 .chip.warn{background:#fef3e2;color:var(--gold)}
+.chip.src{margin-left:6px;background:#e8f7ee;color:#16a34a}
+.chip.src.real{background:#fff4e6;color:#d97706}
 .qtext{font-size:17px;line-height:1.7;font-weight:600;margin-bottom:20px}
 .opt{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;font-size:15px;line-height:1.6;transition:all .12s}
 .opt:hover{border-color:var(--brand);background:#f6faff}
@@ -220,7 +222,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
     <div class="chaprow" onclick="openReset()"><span>🗑️ 重置做题记录</span><span class="pc">清空已练 / 正确率 / 错题本 →</span></div>
 
     <div class="note">
-      <b>说明</b>：本题库为依据 VTC / 高峰进修学院（PEAK）官方考试范围编写的原创练习题，非官方真题（官方不公布真题）。所有题目均为简体中文，正式考试为中英对照。保险规管细节（费用、时限、守则条文）可能更新，请以官方考试手册及保监局最新公布为准。答题记录仅保存在本机浏览器。
+      <b>说明</b>：本题库依据 VTC / 高峰进修学院（PEAK）官方考试范围编写，收录自编<b>原创练习题</b>（500 题）与<b>练习题库原题</b>（1738 题），每道题上方标有「原创」或「真实题」，仅供内部备考使用。题目均转为简体中文，正式考试为中英对照。保险规管细节（费用、时限、守则条文）可能更新，请以官方考试手册及保监局最新公布为准。答题记录仅保存在本机浏览器。
     </div>
 
     <div class="guide-banner" onclick="showGuide()">
@@ -235,7 +237,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 
   <footer class="footer">
     <div><b>Wyatt</b> 编写</div>
-    <div class="foot-note">IIQE 刷题辅助工具 · 题库为依据官方考试范围编写的原创练习题，考试详情请以 PEAK 与保监局公布为准</div>
+    <div class="foot-note">IIQE 刷题辅助工具 · 题库含原创练习题与练习题库原题，仅供内部备考使用，考试详情请以 PEAK 与保监局公布为准</div>
   </footer>
 </div>
 
@@ -258,6 +260,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
   <div class="wrap">
     <div class="qcard">
       <span class="chip" id="qchip"></span>
+      <span class="chip src" id="srcchip"></span>
       <div class="qtext" id="qtext"></div>
       <div id="opts"></div>
       <div class="exp" id="exp"></div>
@@ -318,7 +321,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
             </tbody>
           </table>
         </div>
-        <p class="gtip">本 App 目前覆盖 <b>卷一</b> 与 <b>卷三</b> 两卷，题库共 500 题（卷一 250 + 卷三 250），依据官方考试范围编写。另有旅游保险等专项考试，具体以官方公布为准。</p>
+        <p class="gtip">本 App 目前覆盖 <b>卷一</b> 与 <b>卷三</b> 两卷，题库共 2238 题（卷一 1103 + 卷三 1135，含原创 500 题与真实题 1738 题）。另有旅游保险等专项考试，具体以官方公布为准。</p>
       </section>
 
       <section>
@@ -387,7 +390,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
       </section>
 
       <div class="gdisclaimer">
-        <b>⚠️ 免责声明</b>：本页面为备考辅助与流程说明，考试科目、题量、时限、费用与规管条文可能更新，请以<b>高峰进修学院（PEAK）</b>及<b>保险业监管局（IA）</b>最新公布为准。本 App 题库为依据官方考试范围编写的原创练习题，非官方真题。
+        <b>⚠️ 免责声明</b>：本页面为备考辅助与流程说明，考试科目、题量、时限、费用与规管条文可能更新，请以<b>高峰进修学院（PEAK）</b>及<b>保险业监管局（IA）</b>最新公布为准。本 App 题库依据官方考试范围编写，收录自编原创练习题与练习题库原题，仅供内部备考使用。
       </div>
     </article>
   </div>
@@ -528,12 +531,17 @@ function renderQ(){
   const chip=document.getElementById('qchip');
   chip.textContent=(q.p===1?'卷一':'卷三')+' · '+q.ch;
   if(S.mode==='mock'){ chip.textContent+=' ｜ 模拟考'; chip.classList.add('warn'); } else chip.classList.remove('warn');
+  const src=document.getElementById('srcchip');
+  src.textContent = q.src ? '真实题' : '原创';
+  src.classList.toggle('real', !!q.src);
   document.getElementById('qtext').textContent=(idx+1)+'. '+q.q;
   const box=document.getElementById('opts'); box.innerHTML='';
   const rec = S.mode==='mock' ? S.answers[keyOf(q)] : recMap[keyOf(q)];
   q.o.forEach((t,i)=>{
     const d=document.createElement('div'); d.className='opt';
-    d.innerHTML=`<span class="k">${'ABCD'[i]}</span><span>${t}</span>`;
+    const k=document.createElement('span'); k.className='k'; k.textContent='ABCD'[i];
+    const tt=document.createElement('span'); tt.textContent=t;
+    d.appendChild(k); d.appendChild(tt);
     if(rec!==undefined){
       d.classList.add('locked');
       if(S.mode==='mock'){ if(i===rec) d.classList.add('sel'); }
